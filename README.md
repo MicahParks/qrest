@@ -4,9 +4,11 @@ This implements a fantasy REST api to handle quotas.
 
 ## How to build
 
+Get a git checkout of the code.
+
 Run:
 ```
-$ go build -o ./qrest github.com/mvo5/qrest-skeleton/cmd/mgrd
+$ go build -o ./qrest ./cmd/mgrd
 $ ./qrest
 $ curl http://localhost:8080/
 ```
@@ -14,8 +16,12 @@ $ curl http://localhost:8080/
 ## How to test
 
 ```
-$ go test github.com/mvo5/qrest-skeleton/...
+$ go test ./...
 ```
+
+## Working with the code
+
+Please use gofmt/go fmt on your code.
 
 ## External libraries used
 
