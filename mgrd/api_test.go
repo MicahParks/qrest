@@ -12,7 +12,7 @@ import (
 )
 
 type apiSuite struct {
-	d     *mgrd.Mgrd
+	d        *mgrd.Mgrd
 	quotaMgr *backend.QuotaManager
 }
 
@@ -42,4 +42,3 @@ func (s *apiSuite) TestSlashRoot(c *C) {
 func (s *apiSuite) TestQuotaCreateHappy(c *C) {
 	// ...
 }
-

@@ -23,4 +23,3 @@ type quotaGroupJSON struct {
 	Snaps     []string `json:"snaps,omitempty"`
 	Groups    []string `json:"groups,omitempty"`
 }
-

@@ -90,4 +90,3 @@ func (r *Mgrd) Wait() error {
 		return fmt.Errorf("mgrd errored: %v", errs)
 	}
 }
-
