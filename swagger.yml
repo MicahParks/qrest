@@ -33,17 +33,27 @@ paths:
       tags:
         - "system"
 
-  /quota/{groupName}:
+  /quota/{group}:
     delete:
     post:
 
-  /snap:
+  /write/{group}:
     delete:
     post:
 
-  /limit/{groupName}:
+  /limit/{group}:
     get:
     post: # TODO Update default. Upsert by boolean.
 
-  /usage/{groupName}:
+  /usage/{group}:
     get:
+
+definitions:
+
+  # Schema for a quota-group.
+  QuotaGroup:
+    type: "string"
+
+  # Schema for a snap.
+  Snap:
+    type: "string"
