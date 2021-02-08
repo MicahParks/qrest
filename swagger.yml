@@ -1,0 +1,49 @@
+swagger: "2.0"
+
+basePath: "/api/v0"
+
+host: "localhost"
+
+info:
+  description: "" # TODO
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+  title: "" # TODO
+  version: "0.0.1"
+
+tags:
+  - description: "" # TODO
+    name: "api"
+  - description: "Endpoints required by the system that are not public facing."
+    name: "system"
+
+schemes:
+  - "http"
+
+paths:
+  /alive:
+    get:
+      summary: "Used by Caddy or other reverse proxy to determine if the service is alive."
+      description: "Any non-200 response means the service is not alive."
+      operationId: "alive"
+      responses:
+        200:
+          description: "Service is alive."
+      tags:
+        - "system"
+
+  /quota/{groupName}:
+    delete:
+    post:
+
+  /snap:
+    delete:
+    post:
+
+  /limit/{groupName}:
+    get:
+    post: # TODO Update default. Upsert by boolean.
+
+  /usage/{groupName}:
+    get:
