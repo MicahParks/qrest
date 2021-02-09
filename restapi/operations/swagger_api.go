@@ -19,6 +19,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
+	apiops "github.com/mvo5/qrest-skeleton/restapi/operations/api"
 	"github.com/mvo5/qrest-skeleton/restapi/operations/system"
 )
 
@@ -47,23 +48,23 @@ func NewSwaggerAPI(spec *loads.Document) *SwaggerAPI {
 		SystemAliveHandler: system.AliveHandlerFunc(func(params system.AliveParams) middleware.Responder {
 			return middleware.NotImplemented("operation system.Alive has not yet been implemented")
 		}),
-		GroupDeleteHandler: GroupDeleteHandlerFunc(func(params GroupDeleteParams) middleware.Responder {
-			return middleware.NotImplemented("operation GroupDelete has not yet been implemented")
+		APIGroupDeleteHandler: apiops.GroupDeleteHandlerFunc(func(params apiops.GroupDeleteParams) middleware.Responder {
+			return middleware.NotImplemented("operation api.GroupDelete has not yet been implemented")
 		}),
-		GroupInsertHandler: GroupInsertHandlerFunc(func(params GroupInsertParams) middleware.Responder {
-			return middleware.NotImplemented("operation GroupInsert has not yet been implemented")
+		APIGroupInsertHandler: apiops.GroupInsertHandlerFunc(func(params apiops.GroupInsertParams) middleware.Responder {
+			return middleware.NotImplemented("operation api.GroupInsert has not yet been implemented")
 		}),
-		GroupLimitReadHandler: GroupLimitReadHandlerFunc(func(params GroupLimitReadParams) middleware.Responder {
-			return middleware.NotImplemented("operation GroupLimitRead has not yet been implemented")
+		APIGroupLimitReadHandler: apiops.GroupLimitReadHandlerFunc(func(params apiops.GroupLimitReadParams) middleware.Responder {
+			return middleware.NotImplemented("operation api.GroupLimitRead has not yet been implemented")
 		}),
-		GroupLimitWriteHandler: GroupLimitWriteHandlerFunc(func(params GroupLimitWriteParams) middleware.Responder {
-			return middleware.NotImplemented("operation GroupLimitWrite has not yet been implemented")
+		APIGroupLimitWriteHandler: apiops.GroupLimitWriteHandlerFunc(func(params apiops.GroupLimitWriteParams) middleware.Responder {
+			return middleware.NotImplemented("operation api.GroupLimitWrite has not yet been implemented")
 		}),
-		GroupMembersAddHandler: GroupMembersAddHandlerFunc(func(params GroupMembersAddParams) middleware.Responder {
-			return middleware.NotImplemented("operation GroupMembersAdd has not yet been implemented")
+		APIGroupMembersAddHandler: apiops.GroupMembersAddHandlerFunc(func(params apiops.GroupMembersAddParams) middleware.Responder {
+			return middleware.NotImplemented("operation api.GroupMembersAdd has not yet been implemented")
 		}),
-		GroupMembersDeleteHandler: GroupMembersDeleteHandlerFunc(func(params GroupMembersDeleteParams) middleware.Responder {
-			return middleware.NotImplemented("operation GroupMembersDelete has not yet been implemented")
+		APIGroupMembersDeleteHandler: apiops.GroupMembersDeleteHandlerFunc(func(params apiops.GroupMembersDeleteParams) middleware.Responder {
+			return middleware.NotImplemented("operation api.GroupMembersDelete has not yet been implemented")
 		}),
 	}
 }
@@ -103,18 +104,18 @@ type SwaggerAPI struct {
 
 	// SystemAliveHandler sets the operation handler for the alive operation
 	SystemAliveHandler system.AliveHandler
-	// GroupDeleteHandler sets the operation handler for the group delete operation
-	GroupDeleteHandler GroupDeleteHandler
-	// GroupInsertHandler sets the operation handler for the group insert operation
-	GroupInsertHandler GroupInsertHandler
-	// GroupLimitReadHandler sets the operation handler for the group limit read operation
-	GroupLimitReadHandler GroupLimitReadHandler
-	// GroupLimitWriteHandler sets the operation handler for the group limit write operation
-	GroupLimitWriteHandler GroupLimitWriteHandler
-	// GroupMembersAddHandler sets the operation handler for the group members add operation
-	GroupMembersAddHandler GroupMembersAddHandler
-	// GroupMembersDeleteHandler sets the operation handler for the group members delete operation
-	GroupMembersDeleteHandler GroupMembersDeleteHandler
+	// APIGroupDeleteHandler sets the operation handler for the group delete operation
+	APIGroupDeleteHandler apiops.GroupDeleteHandler
+	// APIGroupInsertHandler sets the operation handler for the group insert operation
+	APIGroupInsertHandler apiops.GroupInsertHandler
+	// APIGroupLimitReadHandler sets the operation handler for the group limit read operation
+	APIGroupLimitReadHandler apiops.GroupLimitReadHandler
+	// APIGroupLimitWriteHandler sets the operation handler for the group limit write operation
+	APIGroupLimitWriteHandler apiops.GroupLimitWriteHandler
+	// APIGroupMembersAddHandler sets the operation handler for the group members add operation
+	APIGroupMembersAddHandler apiops.GroupMembersAddHandler
+	// APIGroupMembersDeleteHandler sets the operation handler for the group members delete operation
+	APIGroupMembersDeleteHandler apiops.GroupMembersDeleteHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -195,23 +196,23 @@ func (o *SwaggerAPI) Validate() error {
 	if o.SystemAliveHandler == nil {
 		unregistered = append(unregistered, "system.AliveHandler")
 	}
-	if o.GroupDeleteHandler == nil {
-		unregistered = append(unregistered, "GroupDeleteHandler")
+	if o.APIGroupDeleteHandler == nil {
+		unregistered = append(unregistered, "api.GroupDeleteHandler")
 	}
-	if o.GroupInsertHandler == nil {
-		unregistered = append(unregistered, "GroupInsertHandler")
+	if o.APIGroupInsertHandler == nil {
+		unregistered = append(unregistered, "api.GroupInsertHandler")
 	}
-	if o.GroupLimitReadHandler == nil {
-		unregistered = append(unregistered, "GroupLimitReadHandler")
+	if o.APIGroupLimitReadHandler == nil {
+		unregistered = append(unregistered, "api.GroupLimitReadHandler")
 	}
-	if o.GroupLimitWriteHandler == nil {
-		unregistered = append(unregistered, "GroupLimitWriteHandler")
+	if o.APIGroupLimitWriteHandler == nil {
+		unregistered = append(unregistered, "api.GroupLimitWriteHandler")
 	}
-	if o.GroupMembersAddHandler == nil {
-		unregistered = append(unregistered, "GroupMembersAddHandler")
+	if o.APIGroupMembersAddHandler == nil {
+		unregistered = append(unregistered, "api.GroupMembersAddHandler")
 	}
-	if o.GroupMembersDeleteHandler == nil {
-		unregistered = append(unregistered, "GroupMembersDeleteHandler")
+	if o.APIGroupMembersDeleteHandler == nil {
+		unregistered = append(unregistered, "api.GroupMembersDeleteHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -308,27 +309,27 @@ func (o *SwaggerAPI) initHandlerCache() {
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/group"] = NewGroupDelete(o.context, o.GroupDeleteHandler)
+	o.handlers["DELETE"]["/group"] = apiops.NewGroupDelete(o.context, o.APIGroupDeleteHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/group"] = NewGroupInsert(o.context, o.GroupInsertHandler)
+	o.handlers["POST"]["/group"] = apiops.NewGroupInsert(o.context, o.APIGroupInsertHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/group/limits"] = NewGroupLimitRead(o.context, o.GroupLimitReadHandler)
+	o.handlers["GET"]["/group/limits"] = apiops.NewGroupLimitRead(o.context, o.APIGroupLimitReadHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/group/limits"] = NewGroupLimitWrite(o.context, o.GroupLimitWriteHandler)
+	o.handlers["POST"]["/group/limits"] = apiops.NewGroupLimitWrite(o.context, o.APIGroupLimitWriteHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/group/members"] = NewGroupMembersAdd(o.context, o.GroupMembersAddHandler)
+	o.handlers["POST"]["/group/members"] = apiops.NewGroupMembersAdd(o.context, o.APIGroupMembersAddHandler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/group/members"] = NewGroupMembersDelete(o.context, o.GroupMembersDeleteHandler)
+	o.handlers["DELETE"]["/group/members"] = apiops.NewGroupMembersDelete(o.context, o.APIGroupMembersDeleteHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

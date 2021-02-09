@@ -11,6 +11,7 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 
 	"github.com/mvo5/qrest-skeleton/restapi/operations"
+	apiops "github.com/mvo5/qrest-skeleton/restapi/operations/api"
 	"github.com/mvo5/qrest-skeleton/restapi/operations/system"
 )
 
@@ -43,34 +44,34 @@ func configureAPI(api *operations.SwaggerAPI) http.Handler {
 			return middleware.NotImplemented("operation system.Alive has not yet been implemented")
 		})
 	}
-	if api.GroupDeleteHandler == nil {
-		api.GroupDeleteHandler = operations.GroupDeleteHandlerFunc(func(params operations.GroupDeleteParams) middleware.Responder {
-			return middleware.NotImplemented("operation operations.GroupDelete has not yet been implemented")
+	if api.APIGroupDeleteHandler == nil {
+		api.APIGroupDeleteHandler = apiops.GroupDeleteHandlerFunc(func(params apiops.GroupDeleteParams) middleware.Responder {
+			return middleware.NotImplemented("operation api.GroupDelete has not yet been implemented")
 		})
 	}
-	if api.GroupInsertHandler == nil {
-		api.GroupInsertHandler = operations.GroupInsertHandlerFunc(func(params operations.GroupInsertParams) middleware.Responder {
-			return middleware.NotImplemented("operation operations.GroupInsert has not yet been implemented")
+	if api.APIGroupInsertHandler == nil {
+		api.APIGroupInsertHandler = apiops.GroupInsertHandlerFunc(func(params apiops.GroupInsertParams) middleware.Responder {
+			return middleware.NotImplemented("operation api.GroupInsert has not yet been implemented")
 		})
 	}
-	if api.GroupLimitReadHandler == nil {
-		api.GroupLimitReadHandler = operations.GroupLimitReadHandlerFunc(func(params operations.GroupLimitReadParams) middleware.Responder {
-			return middleware.NotImplemented("operation operations.GroupLimitRead has not yet been implemented")
+	if api.APIGroupLimitReadHandler == nil {
+		api.APIGroupLimitReadHandler = apiops.GroupLimitReadHandlerFunc(func(params apiops.GroupLimitReadParams) middleware.Responder {
+			return middleware.NotImplemented("operation api.GroupLimitRead has not yet been implemented")
 		})
 	}
-	if api.GroupLimitWriteHandler == nil {
-		api.GroupLimitWriteHandler = operations.GroupLimitWriteHandlerFunc(func(params operations.GroupLimitWriteParams) middleware.Responder {
-			return middleware.NotImplemented("operation operations.GroupLimitWrite has not yet been implemented")
+	if api.APIGroupLimitWriteHandler == nil {
+		api.APIGroupLimitWriteHandler = apiops.GroupLimitWriteHandlerFunc(func(params apiops.GroupLimitWriteParams) middleware.Responder {
+			return middleware.NotImplemented("operation api.GroupLimitWrite has not yet been implemented")
 		})
 	}
-	if api.GroupMembersAddHandler == nil {
-		api.GroupMembersAddHandler = operations.GroupMembersAddHandlerFunc(func(params operations.GroupMembersAddParams) middleware.Responder {
-			return middleware.NotImplemented("operation operations.GroupMembersAdd has not yet been implemented")
+	if api.APIGroupMembersAddHandler == nil {
+		api.APIGroupMembersAddHandler = apiops.GroupMembersAddHandlerFunc(func(params apiops.GroupMembersAddParams) middleware.Responder {
+			return middleware.NotImplemented("operation api.GroupMembersAdd has not yet been implemented")
 		})
 	}
-	if api.GroupMembersDeleteHandler == nil {
-		api.GroupMembersDeleteHandler = operations.GroupMembersDeleteHandlerFunc(func(params operations.GroupMembersDeleteParams) middleware.Responder {
-			return middleware.NotImplemented("operation operations.GroupMembersDelete has not yet been implemented")
+	if api.APIGroupMembersDeleteHandler == nil {
+		api.APIGroupMembersDeleteHandler = apiops.GroupMembersDeleteHandlerFunc(func(params apiops.GroupMembersDeleteParams) middleware.Responder {
+			return middleware.NotImplemented("operation api.GroupMembersDelete has not yet been implemented")
 		})
 	}
 

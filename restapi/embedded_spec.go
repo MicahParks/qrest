@@ -52,6 +52,9 @@ func init() {
         "consumes": [
           "application/json"
         ],
+        "tags": [
+          "api"
+        ],
         "summary": "Insert a quota-group.",
         "operationId": "groupInsert",
         "parameters": [
@@ -83,6 +86,9 @@ func init() {
       "delete": {
         "consumes": [
           "application/json"
+        ],
+        "tags": [
+          "api"
         ],
         "summary": "Delete a quota-group.",
         "operationId": "groupDelete",
@@ -120,6 +126,9 @@ func init() {
         ],
         "produces": [
           "application/json"
+        ],
+        "tags": [
+          "api"
         ],
         "summary": "Get the resource limits for the given quota-group.",
         "operationId": "groupLimitRead",
@@ -159,6 +168,9 @@ func init() {
         "consumes": [
           "application/json"
         ],
+        "tags": [
+          "api"
+        ],
         "summary": "Set the resource limits for the given quota-groups.",
         "operationId": "groupLimitWrite",
         "parameters": [
@@ -192,6 +204,9 @@ func init() {
         "consumes": [
           "application/json"
         ],
+        "tags": [
+          "api"
+        ],
         "summary": "Add members to the quota-group.",
         "operationId": "groupMembersAdd",
         "parameters": [
@@ -219,6 +234,9 @@ func init() {
       "delete": {
         "consumes": [
           "application/json"
+        ],
+        "tags": [
+          "api"
         ],
         "summary": "Delete members from the quota-group.",
         "operationId": "groupMembersDelete",
@@ -358,6 +376,9 @@ func init() {
         "consumes": [
           "application/json"
         ],
+        "tags": [
+          "api"
+        ],
         "summary": "Insert a quota-group.",
         "operationId": "groupInsert",
         "parameters": [
@@ -389,6 +410,9 @@ func init() {
       "delete": {
         "consumes": [
           "application/json"
+        ],
+        "tags": [
+          "api"
         ],
         "summary": "Delete a quota-group.",
         "operationId": "groupDelete",
@@ -426,6 +450,9 @@ func init() {
         ],
         "produces": [
           "application/json"
+        ],
+        "tags": [
+          "api"
         ],
         "summary": "Get the resource limits for the given quota-group.",
         "operationId": "groupLimitRead",
@@ -465,6 +492,9 @@ func init() {
         "consumes": [
           "application/json"
         ],
+        "tags": [
+          "api"
+        ],
         "summary": "Set the resource limits for the given quota-groups.",
         "operationId": "groupLimitWrite",
         "parameters": [
@@ -498,6 +528,9 @@ func init() {
         "consumes": [
           "application/json"
         ],
+        "tags": [
+          "api"
+        ],
         "summary": "Add members to the quota-group.",
         "operationId": "groupMembersAdd",
         "parameters": [
@@ -525,6 +558,9 @@ func init() {
       "delete": {
         "consumes": [
           "application/json"
+        ],
+        "tags": [
+          "api"
         ],
         "summary": "Delete members from the quota-group.",
         "operationId": "groupMembersDelete",

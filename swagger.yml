@@ -56,6 +56,8 @@ paths:
           description: "Unexpected error."
           schema:
             $ref: "#/definitions/Error"
+      tags:
+        - "api"
     post:
       consumes:
         - "application/json"
@@ -79,6 +81,8 @@ paths:
           description: "Unexpected error."
           schema:
             $ref: "#/definitions/Error"
+      tags:
+        - "api"
 
   /group/members:
     delete:
@@ -101,6 +105,8 @@ paths:
           description: "Unexpected error."
           schema:
             $ref: "#/definitions/Error"
+      tags:
+        - "api"
     post:
       consumes:
         - "application/json"
@@ -120,6 +126,8 @@ paths:
           description: "Unexpected error."
           schema:
             $ref: "#/definitions/Error"
+      tags:
+        - "api"
 
   /group/limits:
     get:
@@ -150,6 +158,8 @@ paths:
           description: "Unexpected error."
           schema:
             $ref: "#/definitions/Error"
+      tags:
+        - "api"
     post:
       consumes:
         - "application/json"
@@ -171,6 +181,8 @@ paths:
           description: "Unexpected error."
           schema:
             $ref: "#/definitions/Error"
+      tags:
+        - "api"
 
 #  /group/{group}/usage: TODO
 #    get:
@@ -210,7 +222,8 @@ definitions:
       maxMemory:
         type: "integer"
 
-  QuotaGroup: # TODO Use for groupWrite.
+  # Schema for quota-group.
+  QuotaGroup:
     properties:
       limits:
         $ref: "#/definitions/Limits"
