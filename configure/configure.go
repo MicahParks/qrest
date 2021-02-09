@@ -3,7 +3,7 @@ package configure
 import (
 	"go.uber.org/zap"
 
-	"github.com/MicahParks/qrest/backend"
+	"github.com/mvo5/qrest-skeleton/backend"
 )
 
 // Configure TODO
