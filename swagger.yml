@@ -84,52 +84,6 @@ paths:
       tags:
         - "api"
 
-  /group/members:
-    delete:
-      consumes:
-        - "application/json"
-      summary: "Delete members from the quota-group."
-      description: "" # TODO
-      operationId: "groupMembersDelete"
-      parameters:
-        - description: "The mapping of quota-group names to the snaps and member quota-groups to remove."
-          in: "body"
-          name: "groupMembers"
-          schema:
-            additionalProperties:
-              $ref: "#/definitions/GroupMembers"
-      responses:
-        200:
-          description: "The members of the group were successfully deleted."
-        default:
-          description: "Unexpected error."
-          schema:
-            $ref: "#/definitions/Error"
-      tags:
-        - "api"
-    post:
-      consumes:
-        - "application/json"
-      summary: "Add members to the quota-group."
-      description: "" # TODO
-      operationId: "groupMembersAdd"
-      parameters:
-        - description: "The mapping of quota-group names to the snaps and member quota-groups to add."
-          in: "body"
-          name: "groupMembers"
-          schema:
-            additionalProperties:
-              $ref: "#/definitions/GroupMembers"
-      responses:
-        200:
-          description: "The members of the group were successfully added."
-        default:
-          description: "Unexpected error."
-          schema:
-            $ref: "#/definitions/Error"
-      tags:
-        - "api"
-
   /group/limits:
     get:
       consumes:
@@ -178,6 +132,52 @@ paths:
       responses:
         200:
           description: "The resource limits were successfully set for the quota-group."
+        default:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/Error"
+      tags:
+        - "api"
+
+  /group/members:
+    delete:
+      consumes:
+        - "application/json"
+      summary: "Delete members from the quota-group."
+      description: "" # TODO
+      operationId: "groupMembersDelete"
+      parameters:
+        - description: "The mapping of quota-group names to the snaps and member quota-groups to remove."
+          in: "body"
+          name: "groupMembers"
+          schema:
+            additionalProperties:
+              $ref: "#/definitions/GroupMembers"
+      responses:
+        200:
+          description: "The members of the group were successfully deleted."
+        default:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/Error"
+      tags:
+        - "api"
+    post:
+      consumes:
+        - "application/json"
+      summary: "Add members to the quota-group."
+      description: "" # TODO
+      operationId: "groupMembersAdd"
+      parameters:
+        - description: "The mapping of quota-group names to the snaps and member quota-groups to add."
+          in: "body"
+          name: "groupMembers"
+          schema:
+            additionalProperties:
+              $ref: "#/definitions/GroupMembers"
+      responses:
+        200:
+          description: "The members of the group were successfully added."
         default:
           description: "Unexpected error."
           schema:
