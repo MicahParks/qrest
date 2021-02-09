@@ -12,8 +12,9 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
+
+	"github.com/mvo5/qrest-skeleton/models"
 )
 
 // NewGroupMembersAddParams creates a new GroupMembersAddParams object
@@ -33,15 +34,10 @@ type GroupMembersAddParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*The name of the quota-group to add members to.
-	  Required: true
-	  In: path
-	*/
-	Group string
-	/*The names of the snaps and member quota-groups to add to the group.
+	/*The mapping of quota-group names to the snaps and member quota-groups to add.
 	  In: body
 	*/
-	Members GroupMembersAddBody
+	GroupMembersMap *models.GroupMembers
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -53,16 +49,11 @@ func (o *GroupMembersAddParams) BindRequest(r *http.Request, route *middleware.M
 
 	o.HTTPRequest = r
 
-	rGroup, rhkGroup, _ := route.Params.GetOK("group")
-	if err := o.bindGroup(rGroup, rhkGroup, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
 	if runtime.HasBody(r) {
 		defer r.Body.Close()
-		var body GroupMembersAddBody
+		var body models.GroupMembers
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
-			res = append(res, errors.NewParseError("members", "body", "", err))
+			res = append(res, errors.NewParseError("groupMembersMap", "body", "", err))
 		} else {
 			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
@@ -75,26 +66,12 @@ func (o *GroupMembersAddParams) BindRequest(r *http.Request, route *middleware.M
 			}
 
 			if len(res) == 0 {
-				o.Members = body
+				o.GroupMembersMap = &body
 			}
 		}
 	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// bindGroup binds and validates parameter Group from path.
-func (o *GroupMembersAddParams) bindGroup(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: true
-	// Parameter is provided by construction from the route
-	o.Group = raw
-
 	return nil
 }

@@ -6,12 +6,9 @@ package operations
 // Editing this file might prove futile when you re-run the generate command
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
 )
 
 // GroupMembersDeleteHandlerFunc turns a function with the right signature into a group members delete handler
@@ -32,7 +29,7 @@ func NewGroupMembersDelete(ctx *middleware.Context, handler GroupMembersDeleteHa
 	return &GroupMembersDelete{Context: ctx, Handler: handler}
 }
 
-/* GroupMembersDelete swagger:route DELETE /group/{group}/members groupMembersDelete
+/* GroupMembersDelete swagger:route DELETE /group/members groupMembersDelete
 
 Delete members from the quota-group.
 
@@ -56,44 +53,4 @@ func (o *GroupMembersDelete) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	res := o.Handler.Handle(Params) // actually handle the request
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
-}
-
-// GroupMembersDeleteBody group members delete body
-//
-// swagger:model GroupMembersDeleteBody
-type GroupMembersDeleteBody struct {
-
-	// snaps
-	Snaps []string `json:"snaps"`
-
-	// sub groups
-	SubGroups []string `json:"subGroups"`
-}
-
-// Validate validates this group members delete body
-func (o *GroupMembersDeleteBody) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this group members delete body based on context it is used
-func (o *GroupMembersDeleteBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GroupMembersDeleteBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GroupMembersDeleteBody) UnmarshalBinary(b []byte) error {
-	var res GroupMembersDeleteBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
 }

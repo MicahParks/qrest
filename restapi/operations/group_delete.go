@@ -29,7 +29,7 @@ func NewGroupDelete(ctx *middleware.Context, handler GroupDeleteHandler) *GroupD
 	return &GroupDelete{Context: ctx, Handler: handler}
 }
 
-/* GroupDelete swagger:route DELETE /group/{group} groupDelete
+/* GroupDelete swagger:route DELETE /group groupDelete
 
 Delete a quota-group.
 

@@ -47,17 +47,25 @@ func init() {
         }
       }
     },
-    "/group/{group}": {
+    "/group": {
       "post": {
+        "consumes": [
+          "application/json"
+        ],
         "summary": "Insert a quota-group.",
         "operationId": "groupInsert",
         "parameters": [
           {
-            "type": "string",
-            "description": "The name of the group to insert.",
+            "description": "The names of the quota-groups to insert. Order matters. If a quota-group is referenced as a member before it was inserted, an error will occur.",
             "name": "group",
-            "in": "path",
-            "required": true
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/QuotaGroup"
+              }
+            }
           }
         ],
         "responses": {
@@ -73,15 +81,23 @@ func init() {
         }
       },
       "delete": {
+        "consumes": [
+          "application/json"
+        ],
         "summary": "Delete a quota-group.",
         "operationId": "groupDelete",
         "parameters": [
           {
-            "type": "string",
-            "description": "The name of the group to delete.",
+            "description": "The names of the quota-groups to delete.",
             "name": "group",
-            "in": "path",
-            "required": true
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           }
         ],
         "responses": {
@@ -97,24 +113,38 @@ func init() {
         }
       }
     },
-    "/group/{group}/limits": {
+    "/group/limits": {
       "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "summary": "Get the resource limits for the given quota-group.",
         "operationId": "groupLimitRead",
         "parameters": [
           {
-            "type": "string",
-            "description": "The name of the quota-group to add members to.",
+            "description": "The name of the quota-groups to get the limits for.",
             "name": "group",
-            "in": "path",
-            "required": true
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "The resource limits for the quota-group.",
+            "description": "The map of quota-group names to resource limits.",
             "schema": {
-              "$ref": "#/definitions/Limits"
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/Limits"
+              }
             }
           },
           "default": {
@@ -126,15 +156,22 @@ func init() {
         }
       },
       "post": {
-        "summary": "Set the resource limits for the given quota-group.",
+        "consumes": [
+          "application/json"
+        ],
+        "summary": "Set the resource limits for the given quota-groups.",
         "operationId": "groupLimitWrite",
         "parameters": [
           {
-            "type": "string",
-            "description": "The name of the quota-group to add members to.",
-            "name": "group",
-            "in": "path",
-            "required": true
+            "description": "The mapping of quota-group names to resource limits.",
+            "name": "groupLimitsMap",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Limits"
+              }
+            }
           }
         ],
         "responses": {
@@ -150,38 +187,20 @@ func init() {
         }
       }
     },
-    "/group/{group}/members": {
+    "/group/members": {
       "post": {
+        "consumes": [
+          "application/json"
+        ],
         "summary": "Add members to the quota-group.",
         "operationId": "groupMembersAdd",
         "parameters": [
           {
-            "type": "string",
-            "description": "The name of the quota-group to add members to.",
-            "name": "group",
-            "in": "path",
-            "required": true
-          },
-          {
-            "description": "The names of the snaps and member quota-groups to add to the group.",
-            "name": "members",
+            "description": "The mapping of quota-group names to the snaps and member quota-groups to add.",
+            "name": "groupMembersMap",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "snaps": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "subGroups": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
+              "$ref": "#/definitions/GroupMembers"
             }
           }
         ],
@@ -198,35 +217,19 @@ func init() {
         }
       },
       "delete": {
+        "consumes": [
+          "application/json"
+        ],
         "summary": "Delete members from the quota-group.",
         "operationId": "groupMembersDelete",
         "parameters": [
           {
-            "type": "string",
-            "description": "The name of the quota-group whose members are being deleted.",
-            "name": "group",
-            "in": "path",
-            "required": true
-          },
-          {
-            "description": "The names of the snaps and member quota-groups to delete from the group.",
-            "name": "members",
+            "description": "The mapping of quota-group names to the snaps and member quota-groups to remove.",
+            "name": "groupMembersMap",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "snaps": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "subGroups": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
+              "additionalProperties": {
+                "$ref": "#/definitions/GroupMembers"
               }
             }
           }
@@ -260,6 +263,23 @@ func init() {
         "message": {
           "type": "string",
           "x-nullable": false
+        }
+      }
+    },
+    "GroupMembers": {
+      "type": "object",
+      "properties": {
+        "snaps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "subGroups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -333,17 +353,25 @@ func init() {
         }
       }
     },
-    "/group/{group}": {
+    "/group": {
       "post": {
+        "consumes": [
+          "application/json"
+        ],
         "summary": "Insert a quota-group.",
         "operationId": "groupInsert",
         "parameters": [
           {
-            "type": "string",
-            "description": "The name of the group to insert.",
+            "description": "The names of the quota-groups to insert. Order matters. If a quota-group is referenced as a member before it was inserted, an error will occur.",
             "name": "group",
-            "in": "path",
-            "required": true
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/QuotaGroup"
+              }
+            }
           }
         ],
         "responses": {
@@ -359,15 +387,23 @@ func init() {
         }
       },
       "delete": {
+        "consumes": [
+          "application/json"
+        ],
         "summary": "Delete a quota-group.",
         "operationId": "groupDelete",
         "parameters": [
           {
-            "type": "string",
-            "description": "The name of the group to delete.",
+            "description": "The names of the quota-groups to delete.",
             "name": "group",
-            "in": "path",
-            "required": true
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           }
         ],
         "responses": {
@@ -383,24 +419,38 @@ func init() {
         }
       }
     },
-    "/group/{group}/limits": {
+    "/group/limits": {
       "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "summary": "Get the resource limits for the given quota-group.",
         "operationId": "groupLimitRead",
         "parameters": [
           {
-            "type": "string",
-            "description": "The name of the quota-group to add members to.",
+            "description": "The name of the quota-groups to get the limits for.",
             "name": "group",
-            "in": "path",
-            "required": true
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "The resource limits for the quota-group.",
+            "description": "The map of quota-group names to resource limits.",
             "schema": {
-              "$ref": "#/definitions/Limits"
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/Limits"
+              }
             }
           },
           "default": {
@@ -412,15 +462,22 @@ func init() {
         }
       },
       "post": {
-        "summary": "Set the resource limits for the given quota-group.",
+        "consumes": [
+          "application/json"
+        ],
+        "summary": "Set the resource limits for the given quota-groups.",
         "operationId": "groupLimitWrite",
         "parameters": [
           {
-            "type": "string",
-            "description": "The name of the quota-group to add members to.",
-            "name": "group",
-            "in": "path",
-            "required": true
+            "description": "The mapping of quota-group names to resource limits.",
+            "name": "groupLimitsMap",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Limits"
+              }
+            }
           }
         ],
         "responses": {
@@ -436,38 +493,20 @@ func init() {
         }
       }
     },
-    "/group/{group}/members": {
+    "/group/members": {
       "post": {
+        "consumes": [
+          "application/json"
+        ],
         "summary": "Add members to the quota-group.",
         "operationId": "groupMembersAdd",
         "parameters": [
           {
-            "type": "string",
-            "description": "The name of the quota-group to add members to.",
-            "name": "group",
-            "in": "path",
-            "required": true
-          },
-          {
-            "description": "The names of the snaps and member quota-groups to add to the group.",
-            "name": "members",
+            "description": "The mapping of quota-group names to the snaps and member quota-groups to add.",
+            "name": "groupMembersMap",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "snaps": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "subGroups": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
+              "$ref": "#/definitions/GroupMembers"
             }
           }
         ],
@@ -484,35 +523,19 @@ func init() {
         }
       },
       "delete": {
+        "consumes": [
+          "application/json"
+        ],
         "summary": "Delete members from the quota-group.",
         "operationId": "groupMembersDelete",
         "parameters": [
           {
-            "type": "string",
-            "description": "The name of the quota-group whose members are being deleted.",
-            "name": "group",
-            "in": "path",
-            "required": true
-          },
-          {
-            "description": "The names of the snaps and member quota-groups to delete from the group.",
-            "name": "members",
+            "description": "The mapping of quota-group names to the snaps and member quota-groups to remove.",
+            "name": "groupMembersMap",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "snaps": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "subGroups": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
+              "additionalProperties": {
+                "$ref": "#/definitions/GroupMembers"
               }
             }
           }
@@ -546,6 +569,23 @@ func init() {
         "message": {
           "type": "string",
           "x-nullable": false
+        }
+      }
+    },
+    "GroupMembers": {
+      "type": "object",
+      "properties": {
+        "snaps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "subGroups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },

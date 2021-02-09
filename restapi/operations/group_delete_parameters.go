@@ -6,11 +6,12 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"io"
 	"net/http"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/strfmt"
 )
 
 // NewGroupDeleteParams creates a new GroupDeleteParams object
@@ -30,11 +31,11 @@ type GroupDeleteParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*The name of the group to delete.
+	/*The names of the quota-groups to delete.
 	  Required: true
-	  In: path
+	  In: body
 	*/
-	Group string
+	Group []string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -46,26 +47,24 @@ func (o *GroupDeleteParams) BindRequest(r *http.Request, route *middleware.Match
 
 	o.HTTPRequest = r
 
-	rGroup, rhkGroup, _ := route.Params.GetOK("group")
-	if err := o.bindGroup(rGroup, rhkGroup, route.Formats); err != nil {
-		res = append(res, err)
+	if runtime.HasBody(r) {
+		defer r.Body.Close()
+		var body []string
+		if err := route.Consumer.Consume(r.Body, &body); err != nil {
+			if err == io.EOF {
+				res = append(res, errors.Required("group", "body", ""))
+			} else {
+				res = append(res, errors.NewParseError("group", "body", "", err))
+			}
+		} else {
+			// no validation required on inline body
+			o.Group = body
+		}
+	} else {
+		res = append(res, errors.Required("group", "body", ""))
 	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// bindGroup binds and validates parameter Group from path.
-func (o *GroupDeleteParams) bindGroup(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: true
-	// Parameter is provided by construction from the route
-	o.Group = raw
-
 	return nil
 }

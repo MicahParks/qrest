@@ -308,27 +308,27 @@ func (o *SwaggerAPI) initHandlerCache() {
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/group/{group}"] = NewGroupDelete(o.context, o.GroupDeleteHandler)
+	o.handlers["DELETE"]["/group"] = NewGroupDelete(o.context, o.GroupDeleteHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/group/{group}"] = NewGroupInsert(o.context, o.GroupInsertHandler)
+	o.handlers["POST"]["/group"] = NewGroupInsert(o.context, o.GroupInsertHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/group/{group}/limits"] = NewGroupLimitRead(o.context, o.GroupLimitReadHandler)
+	o.handlers["GET"]["/group/limits"] = NewGroupLimitRead(o.context, o.GroupLimitReadHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/group/{group}/limits"] = NewGroupLimitWrite(o.context, o.GroupLimitWriteHandler)
+	o.handlers["POST"]["/group/limits"] = NewGroupLimitWrite(o.context, o.GroupLimitWriteHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/group/{group}/members"] = NewGroupMembersAdd(o.context, o.GroupMembersAddHandler)
+	o.handlers["POST"]["/group/members"] = NewGroupMembersAdd(o.context, o.GroupMembersAddHandler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/group/{group}/members"] = NewGroupMembersDelete(o.context, o.GroupMembersDeleteHandler)
+	o.handlers["DELETE"]["/group/members"] = NewGroupMembersDelete(o.context, o.GroupMembersDeleteHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

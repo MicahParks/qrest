@@ -33,17 +33,22 @@ paths:
       tags:
         - "system"
 
-  /group/{group}:
+  /group:
     delete:
+      consumes:
+        - "application/json"
       summary: "Delete a quota-group."
       description: "" # TODO
       operationId: "groupDelete"
       parameters:
-        - description: "The name of the group to delete."
-          in: "path"
+        - description: "The names of the quota-groups to delete."
+          in: "body"
           name: "group"
           required: true
-          type: "string"
+          schema:
+            type: "array"
+            items:
+              type: "string"
       responses:
         200:
           description: "The group was successfully deleted."
@@ -52,15 +57,21 @@ paths:
           schema:
             $ref: "#/definitions/Error"
     post:
+      consumes:
+        - "application/json"
       summary: "Insert a quota-group."
       description: "" # TODO
       operationId: "groupInsert"
       parameters:
-        - description: "The name of the group to insert."
-          in: "path"
+        - description: "The names of the quota-groups to insert. Order matters. If a quota-group is referenced as a
+        member before it was inserted, an error will occur."
+          in: "body"
           name: "group"
           required: true
-          type: "string"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/QuotaGroup"
       responses:
         200:
           description: "The group was successfully inserted."
@@ -69,31 +80,20 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /group/{group}/members:
+  /group/members:
     delete:
+      consumes:
+        - "application/json"
       summary: "Delete members from the quota-group."
       description: "" # TODO
       operationId: "groupMembersDelete"
       parameters:
-        - description: "The name of the quota-group whose members are being deleted."
-          in: "path"
-          name: "group"
-          required: true
-          type: "string"
-        - description: "The names of the snaps and member quota-groups to delete from the group."
+        - description: "The mapping of quota-group names to the snaps and member quota-groups to remove."
           in: "body"
-          name: "members"
+          name: "groupMembersMap"
           schema:
-            type: "object"
-            properties:
-              snaps:
-                type: "array"
-                items:
-                  type: "string"
-              subGroups:
-                type: "array"
-                items:
-                  type: "string"
+            additionalProperties:
+              $ref: "#/definitions/GroupMembers"
       responses:
         200:
           description: "The members of the group were successfully deleted."
@@ -102,29 +102,17 @@ paths:
           schema:
             $ref: "#/definitions/Error"
     post:
+      consumes:
+        - "application/json"
       summary: "Add members to the quota-group."
       description: "" # TODO
       operationId: "groupMembersAdd"
       parameters:
-        - description: "The name of the quota-group to add members to."
-          in: "path"
-          name: "group"
-          required: true
-          type: "string"
-        - description: "The names of the snaps and member quota-groups to add to the group."
+        - description: "The mapping of quota-group names to the snaps and member quota-groups to add."
           in: "body"
-          name: "members"
+          name: "groupMembersMap"
           schema:
-            type: "object"
-            properties:
-              snaps:
-                type: "array"
-                items:
-                  type: "string"
-              subGroups:
-                type: "array"
-                items:
-                  type: "string"
+            $ref: "#/definitions/GroupMembers"
       responses:
         200:
           description: "The members of the group were successfully added."
@@ -133,37 +121,49 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-
-  /group/{group}/limits:
+  /group/limits:
     get:
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
       summary: "Get the resource limits for the given quota-group."
       description: "" # TODO.
       operationId: "groupLimitRead"
       parameters:
-        - description: "The name of the quota-group to add members to."
-          in: "path"
+        - description: "The name of the quota-groups to get the limits for."
+          in: "body"
           name: "group"
           required: true
-          type: "string"
+          schema:
+            type: "array"
+            items:
+              type: "string"
       responses:
         200:
-          description: "The resource limits for the quota-group."
+          description: "The map of quota-group names to resource limits."
           schema:
-            $ref: "#/definitions/Limits"
+            type: "object"
+            additionalProperties:
+              $ref: "#/definitions/Limits"
         default:
           description: "Unexpected error."
           schema:
             $ref: "#/definitions/Error"
-    post: # TODO Update default. Upsert by boolean.
-      summary: "Set the resource limits for the given quota-group."
+    post:
+      consumes:
+        - "application/json"
+      summary: "Set the resource limits for the given quota-groups."
       description: "" # TODO
       operationId: "groupLimitWrite"
       parameters:
-        - description: "The name of the quota-group to add members to."
-          in: "path"
-          name: "group"
+        - description: "The mapping of quota-group names to resource limits."
+          in: "body"
+          name: "groupLimitsMap"
           required: true
-          type: "string"
+          schema:
+            additionalProperties:
+              $ref: "#/definitions/Limits"
       responses:
         200:
           description: "The resource limits were successfully set for the quota-group."
@@ -189,6 +189,19 @@ definitions:
     required:
       - "code"
       - "message"
+    type: "object"
+
+  # Schema for a quota-group's members' names.
+  GroupMembers:
+    properties:
+      snaps:
+        type: "array"
+        items:
+          type: "string"
+      subGroups:
+        type: "array"
+        items:
+          type: "string"
     type: "object"
 
   # Schema for resource limits.

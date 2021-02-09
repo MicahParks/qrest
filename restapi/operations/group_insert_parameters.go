@@ -6,11 +6,14 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"io"
 	"net/http"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/strfmt"
+
+	"github.com/mvo5/qrest-skeleton/models"
 )
 
 // NewGroupInsertParams creates a new GroupInsertParams object
@@ -30,11 +33,11 @@ type GroupInsertParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*The name of the group to insert.
+	/*The names of the quota-groups to insert. Order matters. If a quota-group is referenced as a member before it was inserted, an error will occur.
 	  Required: true
-	  In: path
+	  In: body
 	*/
-	Group string
+	Group []*models.QuotaGroup
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -46,26 +49,37 @@ func (o *GroupInsertParams) BindRequest(r *http.Request, route *middleware.Match
 
 	o.HTTPRequest = r
 
-	rGroup, rhkGroup, _ := route.Params.GetOK("group")
-	if err := o.bindGroup(rGroup, rhkGroup, route.Formats); err != nil {
-		res = append(res, err)
+	if runtime.HasBody(r) {
+		defer r.Body.Close()
+		var body []*models.QuotaGroup
+		if err := route.Consumer.Consume(r.Body, &body); err != nil {
+			if err == io.EOF {
+				res = append(res, errors.Required("group", "body", ""))
+			} else {
+				res = append(res, errors.NewParseError("group", "body", "", err))
+			}
+		} else {
+
+			// validate array of body objects
+			for i := range body {
+				if body[i] == nil {
+					continue
+				}
+				if err := body[i].Validate(route.Formats); err != nil {
+					res = append(res, err)
+					break
+				}
+			}
+
+			if len(res) == 0 {
+				o.Group = body
+			}
+		}
+	} else {
+		res = append(res, errors.Required("group", "body", ""))
 	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// bindGroup binds and validates parameter Group from path.
-func (o *GroupInsertParams) bindGroup(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: true
-	// Parameter is provided by construction from the route
-	o.Group = raw
-
 	return nil
 }

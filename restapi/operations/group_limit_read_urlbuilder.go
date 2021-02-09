@@ -9,16 +9,11 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
-	"strings"
 )
 
 // GroupLimitReadURL generates an URL for the group limit read operation
 type GroupLimitReadURL struct {
-	Group string
-
 	_basePath string
-	// avoid unkeyed usage
-	_ struct{}
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
@@ -40,14 +35,7 @@ func (o *GroupLimitReadURL) SetBasePath(bp string) {
 func (o *GroupLimitReadURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/group/{group}/limits"
-
-	group := o.Group
-	if group != "" {
-		_path = strings.Replace(_path, "{group}", group, -1)
-	} else {
-		return nil, errors.New("group is required on GroupLimitReadURL")
-	}
+	var _path = "/group/limits"
 
 	_basePath := o._basePath
 	if _basePath == "" {

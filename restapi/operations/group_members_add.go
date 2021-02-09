@@ -6,12 +6,9 @@ package operations
 // Editing this file might prove futile when you re-run the generate command
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
 )
 
 // GroupMembersAddHandlerFunc turns a function with the right signature into a group members add handler
@@ -32,7 +29,7 @@ func NewGroupMembersAdd(ctx *middleware.Context, handler GroupMembersAddHandler)
 	return &GroupMembersAdd{Context: ctx, Handler: handler}
 }
 
-/* GroupMembersAdd swagger:route POST /group/{group}/members groupMembersAdd
+/* GroupMembersAdd swagger:route POST /group/members groupMembersAdd
 
 Add members to the quota-group.
 
@@ -56,44 +53,4 @@ func (o *GroupMembersAdd) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	res := o.Handler.Handle(Params) // actually handle the request
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
-}
-
-// GroupMembersAddBody group members add body
-//
-// swagger:model GroupMembersAddBody
-type GroupMembersAddBody struct {
-
-	// snaps
-	Snaps []string `json:"snaps"`
-
-	// sub groups
-	SubGroups []string `json:"subGroups"`
-}
-
-// Validate validates this group members add body
-func (o *GroupMembersAddBody) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this group members add body based on context it is used
-func (o *GroupMembersAddBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	return nil
-}
-
-// MarshalBinary interface implementation
-func (o *GroupMembersAddBody) MarshalBinary() ([]byte, error) {
-	if o == nil {
-		return nil, nil
-	}
-	return swag.WriteJSON(o)
-}
-
-// UnmarshalBinary interface implementation
-func (o *GroupMembersAddBody) UnmarshalBinary(b []byte) error {
-	var res GroupMembersAddBody
-	if err := swag.ReadJSON(b, &res); err != nil {
-		return err
-	}
-	*o = res
-	return nil
 }

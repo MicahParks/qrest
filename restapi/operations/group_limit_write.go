@@ -29,9 +29,9 @@ func NewGroupLimitWrite(ctx *middleware.Context, handler GroupLimitWriteHandler)
 	return &GroupLimitWrite{Context: ctx, Handler: handler}
 }
 
-/* GroupLimitWrite swagger:route POST /group/{group}/limits groupLimitWrite
+/* GroupLimitWrite swagger:route POST /group/limits groupLimitWrite
 
-Set the resource limits for the given quota-group.
+Set the resource limits for the given quota-groups.
 
 */
 type GroupLimitWrite struct {

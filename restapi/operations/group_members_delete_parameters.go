@@ -6,14 +6,15 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
+
+	"github.com/mvo5/qrest-skeleton/models"
 )
 
 // NewGroupMembersDeleteParams creates a new GroupMembersDeleteParams object
@@ -33,15 +34,10 @@ type GroupMembersDeleteParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*The name of the quota-group whose members are being deleted.
-	  Required: true
-	  In: path
-	*/
-	Group string
-	/*The names of the snaps and member quota-groups to delete from the group.
+	/*The mapping of quota-group names to the snaps and member quota-groups to remove.
 	  In: body
 	*/
-	Members GroupMembersDeleteBody
+	GroupMembersMap map[string]models.GroupMembers
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -53,48 +49,32 @@ func (o *GroupMembersDeleteParams) BindRequest(r *http.Request, route *middlewar
 
 	o.HTTPRequest = r
 
-	rGroup, rhkGroup, _ := route.Params.GetOK("group")
-	if err := o.bindGroup(rGroup, rhkGroup, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
 	if runtime.HasBody(r) {
 		defer r.Body.Close()
-		var body GroupMembersDeleteBody
+		var body map[string]models.GroupMembers
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
-			res = append(res, errors.NewParseError("members", "body", "", err))
+			res = append(res, errors.NewParseError("groupMembersMap", "body", "", err))
 		} else {
-			// validate body object
-			if err := body.Validate(route.Formats); err != nil {
-				res = append(res, err)
-			}
-
-			ctx := validate.WithOperationRequest(context.Background())
-			if err := body.ContextValidate(ctx, route.Formats); err != nil {
-				res = append(res, err)
+			// validate map of body objects
+			for k := range body {
+				if err := validate.Required(fmt.Sprintf("%s.%v", "groupMembersMap", k), "body", body[k]); err != nil {
+					return err
+				}
+				if val, ok := body[k]; ok {
+					if err := val.Validate(route.Formats); err != nil {
+						res = append(res, err)
+						break
+					}
+				}
 			}
 
 			if len(res) == 0 {
-				o.Members = body
+				o.GroupMembersMap = body
 			}
 		}
 	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// bindGroup binds and validates parameter Group from path.
-func (o *GroupMembersDeleteParams) bindGroup(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: true
-	// Parameter is provided by construction from the route
-	o.Group = raw
-
 	return nil
 }

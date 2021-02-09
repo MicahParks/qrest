@@ -16,7 +16,7 @@ import (
 // GroupLimitReadOKCode is the HTTP code returned for type GroupLimitReadOK
 const GroupLimitReadOKCode int = 200
 
-/*GroupLimitReadOK The resource limits for the quota-group.
+/*GroupLimitReadOK The map of quota-group names to resource limits.
 
 swagger:response groupLimitReadOK
 */
@@ -25,7 +25,7 @@ type GroupLimitReadOK struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Limits `json:"body,omitempty"`
+	Payload map[string]models.Limits `json:"body,omitempty"`
 }
 
 // NewGroupLimitReadOK creates GroupLimitReadOK with default headers values
@@ -35,13 +35,13 @@ func NewGroupLimitReadOK() *GroupLimitReadOK {
 }
 
 // WithPayload adds the payload to the group limit read o k response
-func (o *GroupLimitReadOK) WithPayload(payload *models.Limits) *GroupLimitReadOK {
+func (o *GroupLimitReadOK) WithPayload(payload map[string]models.Limits) *GroupLimitReadOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the group limit read o k response
-func (o *GroupLimitReadOK) SetPayload(payload *models.Limits) {
+func (o *GroupLimitReadOK) SetPayload(payload map[string]models.Limits) {
 	o.Payload = payload
 }
 
@@ -49,11 +49,14 @@ func (o *GroupLimitReadOK) SetPayload(payload *models.Limits) {
 func (o *GroupLimitReadOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(200)
-	if o.Payload != nil {
-		payload := o.Payload
-		if err := producer.Produce(rw, payload); err != nil {
-			panic(err) // let the recovery middleware deal with this
-		}
+	payload := o.Payload
+	if payload == nil {
+		// return empty map
+		payload = make(map[string]models.Limits, 50)
+	}
+
+	if err := producer.Produce(rw, payload); err != nil {
+		panic(err) // let the recovery middleware deal with this
 	}
 }
 

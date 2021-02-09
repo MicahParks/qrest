@@ -6,11 +6,16 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"fmt"
+	"io"
 	"net/http"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/validate"
+
+	"github.com/mvo5/qrest-skeleton/models"
 )
 
 // NewGroupLimitWriteParams creates a new GroupLimitWriteParams object
@@ -30,11 +35,11 @@ type GroupLimitWriteParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*The name of the quota-group to add members to.
+	/*The mapping of quota-group names to resource limits.
 	  Required: true
-	  In: path
+	  In: body
 	*/
-	Group string
+	GroupLimitsMap map[string]models.Limits
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -46,26 +51,38 @@ func (o *GroupLimitWriteParams) BindRequest(r *http.Request, route *middleware.M
 
 	o.HTTPRequest = r
 
-	rGroup, rhkGroup, _ := route.Params.GetOK("group")
-	if err := o.bindGroup(rGroup, rhkGroup, route.Formats); err != nil {
-		res = append(res, err)
+	if runtime.HasBody(r) {
+		defer r.Body.Close()
+		var body map[string]models.Limits
+		if err := route.Consumer.Consume(r.Body, &body); err != nil {
+			if err == io.EOF {
+				res = append(res, errors.Required("groupLimitsMap", "body", ""))
+			} else {
+				res = append(res, errors.NewParseError("groupLimitsMap", "body", "", err))
+			}
+		} else {
+			// validate map of body objects
+			for k := range body {
+				if err := validate.Required(fmt.Sprintf("%s.%v", "groupLimitsMap", k), "body", body[k]); err != nil {
+					return err
+				}
+				if val, ok := body[k]; ok {
+					if err := val.Validate(route.Formats); err != nil {
+						res = append(res, err)
+						break
+					}
+				}
+			}
+
+			if len(res) == 0 {
+				o.GroupLimitsMap = body
+			}
+		}
+	} else {
+		res = append(res, errors.Required("groupLimitsMap", "body", ""))
 	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// bindGroup binds and validates parameter Group from path.
-func (o *GroupLimitWriteParams) bindGroup(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: true
-	// Parameter is provided by construction from the route
-	o.Group = raw
-
 	return nil
 }

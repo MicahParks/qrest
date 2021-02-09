@@ -9,16 +9,11 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
-	"strings"
 )
 
 // GroupMembersAddURL generates an URL for the group members add operation
 type GroupMembersAddURL struct {
-	Group string
-
 	_basePath string
-	// avoid unkeyed usage
-	_ struct{}
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
@@ -40,14 +35,7 @@ func (o *GroupMembersAddURL) SetBasePath(bp string) {
 func (o *GroupMembersAddURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/group/{group}/members"
-
-	group := o.Group
-	if group != "" {
-		_path = strings.Replace(_path, "{group}", group, -1)
-	} else {
-		return nil, errors.New("group is required on GroupMembersAddURL")
-	}
+	var _path = "/group/members"
 
 	_basePath := o._basePath
 	if _basePath == "" {

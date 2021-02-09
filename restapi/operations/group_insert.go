@@ -29,7 +29,7 @@ func NewGroupInsert(ctx *middleware.Context, handler GroupInsertHandler) *GroupI
 	return &GroupInsert{Context: ctx, Handler: handler}
 }
 
-/* GroupInsert swagger:route POST /group/{group} groupInsert
+/* GroupInsert swagger:route POST /group groupInsert
 
 Insert a quota-group.
 
