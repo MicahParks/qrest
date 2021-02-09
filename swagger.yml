@@ -94,7 +94,7 @@ paths:
       parameters:
         - description: "The mapping of quota-group names to the snaps and member quota-groups to remove."
           in: "body"
-          name: "groupMembersMap"
+          name: "groupMembers"
           schema:
             additionalProperties:
               $ref: "#/definitions/GroupMembers"
@@ -116,9 +116,10 @@ paths:
       parameters:
         - description: "The mapping of quota-group names to the snaps and member quota-groups to add."
           in: "body"
-          name: "groupMembersMap"
+          name: "groupMembers"
           schema:
-            $ref: "#/definitions/GroupMembers"
+            additionalProperties:
+              $ref: "#/definitions/GroupMembers"
       responses:
         200:
           description: "The members of the group were successfully added."

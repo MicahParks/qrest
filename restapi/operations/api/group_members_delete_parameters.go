@@ -37,7 +37,7 @@ type GroupMembersDeleteParams struct {
 	/*The mapping of quota-group names to the snaps and member quota-groups to remove.
 	  In: body
 	*/
-	GroupMembersMap map[string]models.GroupMembers
+	GroupMembers map[string]models.GroupMembers
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -53,11 +53,11 @@ func (o *GroupMembersDeleteParams) BindRequest(r *http.Request, route *middlewar
 		defer r.Body.Close()
 		var body map[string]models.GroupMembers
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
-			res = append(res, errors.NewParseError("groupMembersMap", "body", "", err))
+			res = append(res, errors.NewParseError("groupMembers", "body", "", err))
 		} else {
 			// validate map of body objects
 			for k := range body {
-				if err := validate.Required(fmt.Sprintf("%s.%v", "groupMembersMap", k), "body", body[k]); err != nil {
+				if err := validate.Required(fmt.Sprintf("%s.%v", "groupMembers", k), "body", body[k]); err != nil {
 					return err
 				}
 				if val, ok := body[k]; ok {
@@ -69,7 +69,7 @@ func (o *GroupMembersDeleteParams) BindRequest(r *http.Request, route *middlewar
 			}
 
 			if len(res) == 0 {
-				o.GroupMembersMap = body
+				o.GroupMembers = body
 			}
 		}
 	}

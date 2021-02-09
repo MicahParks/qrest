@@ -6,7 +6,7 @@ package api
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/go-openapi/errors"
@@ -37,7 +37,7 @@ type GroupMembersAddParams struct {
 	/*The mapping of quota-group names to the snaps and member quota-groups to add.
 	  In: body
 	*/
-	GroupMembersMap *models.GroupMembers
+	GroupMembers map[string]models.GroupMembers
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -51,22 +51,25 @@ func (o *GroupMembersAddParams) BindRequest(r *http.Request, route *middleware.M
 
 	if runtime.HasBody(r) {
 		defer r.Body.Close()
-		var body models.GroupMembers
+		var body map[string]models.GroupMembers
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
-			res = append(res, errors.NewParseError("groupMembersMap", "body", "", err))
+			res = append(res, errors.NewParseError("groupMembers", "body", "", err))
 		} else {
-			// validate body object
-			if err := body.Validate(route.Formats); err != nil {
-				res = append(res, err)
-			}
-
-			ctx := validate.WithOperationRequest(context.Background())
-			if err := body.ContextValidate(ctx, route.Formats); err != nil {
-				res = append(res, err)
+			// validate map of body objects
+			for k := range body {
+				if err := validate.Required(fmt.Sprintf("%s.%v", "groupMembers", k), "body", body[k]); err != nil {
+					return err
+				}
+				if val, ok := body[k]; ok {
+					if err := val.Validate(route.Formats); err != nil {
+						res = append(res, err)
+						break
+					}
+				}
 			}
 
 			if len(res) == 0 {
-				o.GroupMembersMap = &body
+				o.GroupMembers = body
 			}
 		}
 	}

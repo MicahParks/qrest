@@ -212,10 +212,12 @@ func init() {
         "parameters": [
           {
             "description": "The mapping of quota-group names to the snaps and member quota-groups to add.",
-            "name": "groupMembersMap",
+            "name": "groupMembers",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/GroupMembers"
+              "additionalProperties": {
+                "$ref": "#/definitions/GroupMembers"
+              }
             }
           }
         ],
@@ -243,7 +245,7 @@ func init() {
         "parameters": [
           {
             "description": "The mapping of quota-group names to the snaps and member quota-groups to remove.",
-            "name": "groupMembersMap",
+            "name": "groupMembers",
             "in": "body",
             "schema": {
               "additionalProperties": {
@@ -536,10 +538,12 @@ func init() {
         "parameters": [
           {
             "description": "The mapping of quota-group names to the snaps and member quota-groups to add.",
-            "name": "groupMembersMap",
+            "name": "groupMembers",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/GroupMembers"
+              "additionalProperties": {
+                "$ref": "#/definitions/GroupMembers"
+              }
             }
           }
         ],
@@ -567,7 +571,7 @@ func init() {
         "parameters": [
           {
             "description": "The mapping of quota-group names to the snaps and member quota-groups to remove.",
-            "name": "groupMembersMap",
+            "name": "groupMembers",
             "in": "body",
             "schema": {
               "additionalProperties": {
