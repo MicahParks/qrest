@@ -25,7 +25,7 @@ import (
 	flags "github.com/jessevdk/go-flags"
 	"golang.org/x/net/netutil"
 
-	"github.com/mvo5/qrest-skeleton/restapi/operations"
+	"github.com/MicahParks/qrest/restapi/operations"
 )
 
 const (

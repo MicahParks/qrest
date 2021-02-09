@@ -13,7 +13,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 
-	"github.com/mvo5/qrest-skeleton/models"
+	"github.com/MicahParks/qrest/models"
 )
 
 // NewGroupInsertParams creates a new GroupInsertParams object

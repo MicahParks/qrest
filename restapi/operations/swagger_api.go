@@ -19,8 +19,8 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	apiops "github.com/mvo5/qrest-skeleton/restapi/operations/api"
-	"github.com/mvo5/qrest-skeleton/restapi/operations/system"
+	apiops "github.com/MicahParks/qrest/restapi/operations/api"
+	"github.com/MicahParks/qrest/restapi/operations/system"
 )
 
 // NewSwaggerAPI creates a new Swagger instance

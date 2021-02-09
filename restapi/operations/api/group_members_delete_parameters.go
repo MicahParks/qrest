@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/validate"
 
-	"github.com/mvo5/qrest-skeleton/models"
+	"github.com/MicahParks/qrest/models"
 )
 
 // NewGroupMembersDeleteParams creates a new GroupMembersDeleteParams object

@@ -1,4 +1,4 @@
-module github.com/mvo5/qrest-skeleton
+module github.com/MicahParks/qrest
 
 go 1.15
 
