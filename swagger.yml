@@ -33,27 +33,181 @@ paths:
       tags:
         - "system"
 
-  /quota/{group}:
+  /group/{group}:
     delete:
+      summary: "Delete a quota-group."
+      description: "" # TODO
+      operationId: "groupDelete"
+      parameters:
+        - description: "The name of the group to delete."
+          in: "path"
+          name: "group"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "The group was successfully deleted."
+        default:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/Error"
     post:
+      summary: "Insert a quota-group."
+      description: "" # TODO
+      operationId: "groupInsert"
+      parameters:
+        - description: "The name of the group to insert."
+          in: "path"
+          name: "group"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "The group was successfully inserted."
+        default:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/Error"
 
-  /write/{group}:
+  /group/{group}/members:
     delete:
+      summary: "Delete members from the quota-group."
+      description: "" # TODO
+      operationId: "groupMembersDelete"
+      parameters:
+        - description: "The name of the quota-group whose members are being deleted."
+          in: "path"
+          name: "group"
+          required: true
+          type: "string"
+        - description: "The names of the snaps and member quota-groups to delete from the group."
+          in: "body"
+          name: "members"
+          schema:
+            type: "object"
+            properties:
+              snaps:
+                type: "array"
+                items:
+                  type: "string"
+              subGroups:
+                type: "array"
+                items:
+                  type: "string"
+      responses:
+        200:
+          description: "The members of the group were successfully deleted."
+        default:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/Error"
     post:
+      summary: "Add members to the quota-group."
+      description: "" # TODO
+      operationId: "groupMembersAdd"
+      parameters:
+        - description: "The name of the quota-group to add members to."
+          in: "path"
+          name: "group"
+          required: true
+          type: "string"
+        - description: "The names of the snaps and member quota-groups to add to the group."
+          in: "body"
+          name: "members"
+          schema:
+            type: "object"
+            properties:
+              snaps:
+                type: "array"
+                items:
+                  type: "string"
+              subGroups:
+                type: "array"
+                items:
+                  type: "string"
+      responses:
+        200:
+          description: "The members of the group were successfully added."
+        default:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/Error"
 
-  /limit/{group}:
+
+  /group/{group}/limits:
     get:
+      summary: "Get the resource limits for the given quota-group."
+      description: "" # TODO.
+      operationId: "groupLimitRead"
+      parameters:
+        - description: "The name of the quota-group to add members to."
+          in: "path"
+          name: "group"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "The resource limits for the quota-group."
+          schema:
+            $ref: "#/definitions/Limits"
+        default:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/Error"
     post: # TODO Update default. Upsert by boolean.
+      summary: "Set the resource limits for the given quota-group."
+      description: "" # TODO
+      operationId: "groupLimitWrite"
+      parameters:
+        - description: "The name of the quota-group to add members to."
+          in: "path"
+          name: "group"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "The resource limits were successfully set for the quota-group."
+        default:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/Error"
 
-  /usage/{group}:
-    get:
+#  /group/{group}/usage: TODO
+#    get:
 
 definitions:
 
-  # Schema for a quota-group.
-  QuotaGroup:
-    type: "string"
+  # Schema for error response body.
+  Error:
+    properties:
+      code:
+        type: "integer"
+        x-nullable: false
+      message:
+        type: "string"
+        x-nullable: false
+    required:
+      - "code"
+      - "message"
+    type: "object"
 
-  # Schema for a snap.
-  Snap:
-    type: "string"
+  # Schema for resource limits.
+  Limits:
+    properties:
+      maxMemory:
+        type: "integer"
+
+  QuotaGroup: # TODO Use for groupWrite.
+    properties:
+      limits:
+        $ref: "#/definitions/Limits"
+      name:
+        type: "string"
+      snaps:
+        type: "array"
+        items:
+          type: "string"
+      subGroups:
+        type: "array"
+        items:
+          type: "string"
