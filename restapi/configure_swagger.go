@@ -9,6 +9,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 
+	"github.com/MicahParks/qrest/configure"
 	"github.com/MicahParks/qrest/endpoints"
 	"github.com/MicahParks/qrest/endpoints/system"
 	"github.com/MicahParks/qrest/restapi/operations"
@@ -24,27 +25,25 @@ func configureAPI(api *operations.SwaggerAPI) http.Handler {
 	// configure the api here
 	api.ServeError = errors.ServeError
 
-	// Set your custom logger if needed. Default one is log.Printf
-	// Expected interface func(string, ...interface{})
-	//
-	// Example:
-	// api.Logger = log.Printf
+	// Configure the service.
+	quotaManager := configure.Configure()
+
+	// api.Logger = log.Printf TODO
 
 	api.UseSwaggerUI()
-	// To continue using redoc as your UI, uncomment the following line
-	// api.UseRedoc()
 
 	api.JSONConsumer = runtime.JSONConsumer()
 
 	api.JSONProducer = runtime.JSONProducer()
 
+	// Set the endpoint handlers.
 	api.SystemAliveHandler = system.HandleAlive()
 	api.APIGroupDeleteHandler = endpoints.HandleGroupDelete()
-	api.APIGroupInsertHandler
-	api.APIGroupLimitReadHandler
-	api.APIGroupLimitWriteHandler
-	api.APIGroupMembersAddHandler
-	api.APIGroupMembersDeleteHandler
+	//api.APIGroupInsertHandler =
+	//api.APIGroupLimitReadHandler
+	//api.APIGroupLimitWriteHandler
+	//api.APIGroupMembersAddHandler
+	//api.APIGroupMembersDeleteHandler
 
 	api.PreServerShutdown = func() {}
 
