@@ -4,6 +4,7 @@ package restapi
 
 import (
 	"crypto/tls"
+	"log"
 	"net/http"
 
 	"github.com/go-openapi/errors"
@@ -26,9 +27,13 @@ func configureAPI(api *operations.SwaggerAPI) http.Handler {
 	api.ServeError = errors.ServeError
 
 	// Configure the service.
-	quotaManager := configure.Configure()
+	quotaManager, logger, err := configure.Configure()
+	if err != nil {
+		log.Fatalf("Failed to configure the service.\nError: %s", err.Error())
+	}
 
-	// api.Logger = log.Printf TODO
+	// Set the generated code logger.
+	api.Logger = logger.Named("Generated Code").Infof
 
 	api.UseSwaggerUI()
 
@@ -38,8 +43,8 @@ func configureAPI(api *operations.SwaggerAPI) http.Handler {
 
 	// Set the endpoint handlers.
 	api.SystemAliveHandler = system.HandleAlive()
-	api.APIGroupDeleteHandler = endpoints.HandleGroupDelete()
-	//api.APIGroupInsertHandler =
+	api.APIGroupDeleteHandler = endpoints.HandleGroupDelete(logger, quotaManager)
+	api.APIGroupInsertHandler = endpoints.HandleGroupInsert(logger, quotaManager)
 	//api.APIGroupLimitReadHandler
 	//api.APIGroupLimitWriteHandler
 	//api.APIGroupMembersAddHandler

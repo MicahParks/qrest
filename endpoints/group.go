@@ -45,3 +45,23 @@ func HandleGroupDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaMan
 		return &api.GroupDeleteOK{}
 	}
 }
+
+// HandleGroupInsert TODO
+func HandleGroupInsert(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupInsertHandlerFunc {
+	return func(params api.GroupInsertParams) middleware.Responder {
+
+		// Iterate through the given groups.
+		for _, group := range params.Group {
+			if group != nil {
+				if group.Name == "" || group.Limits == nil {
+					// TODO Return 422 Unprocessable.
+				}
+
+				// Add the group to the quota manager.
+				quotaManager.AddGroup(group.Name, uint64(group.Limits.MaxMemory)) // TODO Integer conversion doesn't allow for full uint64.
+			}
+		}
+
+		return &api.GroupInsertOK{}
+	}
+}
