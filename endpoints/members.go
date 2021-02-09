@@ -6,7 +6,8 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"go.uber.org/zap"
 
-	"github.com/MicahParks/qrest/backend"
+	"github.com/mvo5/qrest-skeleton/backend"
+
 	"github.com/MicahParks/qrest/models"
 	"github.com/MicahParks/qrest/restapi/operations/api"
 )
