@@ -1,0 +1,8 @@
+localhost
+
+reverse_proxy http://snapapi:30000 {
+    health_path /api/v0/alive
+    health_interval 5s
+    health_timeout 2s
+    health_status 200
+}

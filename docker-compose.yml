@@ -1,0 +1,20 @@
+version: "3"
+services:
+  caddy:
+    container_name: "caddy"
+    image: "caddy:2"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./Caddyfile:/etc/caddy/Caddyfile"
+      - "caddy:/data"
+      - "caddyConfig:/config"
+  snapapi:
+    build:
+      context: "."
+      dockerfile: "Dockerfile"
+    container_name: "snapapi"
+volumes:
+  caddy:
+  caddyConfig:

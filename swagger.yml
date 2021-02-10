@@ -62,8 +62,7 @@ paths:
       consumes:
         - "application/json"
       summary: "Insert quota-groups."
-      description: "Insert all given quota-groups to the backend.
-      "
+      description: "Insert all given quota-groups to the backend."
       operationId: "groupInsert"
       parameters:
         - description: "The names of the quota-groups to insert. Order matters. If a quota-group is referenced as a

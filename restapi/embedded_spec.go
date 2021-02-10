@@ -51,7 +51,7 @@ func init() {
     },
     "/group": {
       "post": {
-        "description": "Insert all given quota-groups to the backend. ",
+        "description": "Insert all given quota-groups to the backend.",
         "consumes": [
           "application/json"
         ],
@@ -487,7 +487,7 @@ func init() {
     },
     "/group": {
       "post": {
-        "description": "Insert all given quota-groups to the backend. ",
+        "description": "Insert all given quota-groups to the backend.",
         "consumes": [
           "application/json"
         ],
