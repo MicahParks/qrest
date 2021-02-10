@@ -114,6 +114,49 @@ func HandleMembersDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaM
 	}
 }
 
+// HandleMemberRead TODO. This is an extra endpoint that was not asked for.
+func HandleMembersRead(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupMembersReadHandlerFunc {
+	return func(params api.GroupMembersReadParams) middleware.Responder {
+
+		// Create the map returned to the client.
+		groupMembers := make(map[string]models.GroupMembers)
+
+		// Iterate through the given groups.
+		for _, groupName := range params.Groups {
+
+			// Get the group from the quota manager.
+			var group *backend.QuotaGroup
+			if group = quotaManager.GetGroup(groupName); group == nil {
+
+				// Log the event.
+				code, message := groupNotFound(groupName)
+				logger.Infow(message,
+					"groupName", groupName,
+				)
+
+				// Report the error to the client.
+				resp := &api.GroupMembersReadDefault{Payload: &models.Error{
+					Code:    int64(code),
+					Message: message,
+				}}
+				resp.SetStatusCode(code)
+
+				return resp
+			}
+
+			// Add the group's group members to the map.
+			groupMembers[groupName] = models.GroupMembers{
+				Snaps:     group.Snaps(),
+				SubGroups: group.Groups(),
+			}
+		}
+
+		return &api.GroupMembersReadOK{
+			Payload: groupMembers,
+		}
+	}
+}
+
 // memberAddRequestFailure TODO
 func memberFailure(addMember bool, err error, groupName string, logger *zap.SugaredLogger, memberName, memberType string) middleware.Responder {
 

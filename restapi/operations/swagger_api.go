@@ -66,6 +66,9 @@ func NewSwaggerAPI(spec *loads.Document) *SwaggerAPI {
 		APIGroupMembersDeleteHandler: apiops.GroupMembersDeleteHandlerFunc(func(params apiops.GroupMembersDeleteParams) middleware.Responder {
 			return middleware.NotImplemented("operation api.GroupMembersDelete has not yet been implemented")
 		}),
+		APIGroupMembersReadHandler: apiops.GroupMembersReadHandlerFunc(func(params apiops.GroupMembersReadParams) middleware.Responder {
+			return middleware.NotImplemented("operation api.GroupMembersRead has not yet been implemented")
+		}),
 		APIGroupUsageHandler: apiops.GroupUsageHandlerFunc(func(params apiops.GroupUsageParams) middleware.Responder {
 			return middleware.NotImplemented("operation api.GroupUsage has not yet been implemented")
 		}),
@@ -119,6 +122,8 @@ type SwaggerAPI struct {
 	APIGroupMembersAddHandler apiops.GroupMembersAddHandler
 	// APIGroupMembersDeleteHandler sets the operation handler for the group members delete operation
 	APIGroupMembersDeleteHandler apiops.GroupMembersDeleteHandler
+	// APIGroupMembersReadHandler sets the operation handler for the group members read operation
+	APIGroupMembersReadHandler apiops.GroupMembersReadHandler
 	// APIGroupUsageHandler sets the operation handler for the group usage operation
 	APIGroupUsageHandler apiops.GroupUsageHandler
 
@@ -218,6 +223,9 @@ func (o *SwaggerAPI) Validate() error {
 	}
 	if o.APIGroupMembersDeleteHandler == nil {
 		unregistered = append(unregistered, "api.GroupMembersDeleteHandler")
+	}
+	if o.APIGroupMembersReadHandler == nil {
+		unregistered = append(unregistered, "api.GroupMembersReadHandler")
 	}
 	if o.APIGroupUsageHandler == nil {
 		unregistered = append(unregistered, "api.GroupUsageHandler")
@@ -338,6 +346,10 @@ func (o *SwaggerAPI) initHandlerCache() {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
 	o.handlers["DELETE"]["/group/members"] = apiops.NewGroupMembersDelete(o.context, o.APIGroupMembersDeleteHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/group/members"] = apiops.NewGroupMembersRead(o.context, o.APIGroupMembersReadHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

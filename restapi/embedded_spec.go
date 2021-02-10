@@ -200,6 +200,48 @@ func init() {
       }
     },
     "/group/members": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "api"
+        ],
+        "summary": "Get the members of quota-groups.",
+        "operationId": "groupMembersRead",
+        "parameters": [
+          {
+            "description": "The names of the quota-groups to get members from.",
+            "name": "groups",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The mapping of quota-group names its members.",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/GroupMembers"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
       "post": {
         "consumes": [
           "application/json"
@@ -583,6 +625,48 @@ func init() {
       }
     },
     "/group/members": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "api"
+        ],
+        "summary": "Get the members of quota-groups.",
+        "operationId": "groupMembersRead",
+        "parameters": [
+          {
+            "description": "The names of the quota-groups to get members from.",
+            "name": "groups",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The mapping of quota-group names its members.",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/GroupMembers"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
       "post": {
         "consumes": [
           "application/json"
