@@ -37,7 +37,7 @@ type GroupInsertParams struct {
 	  Required: true
 	  In: body
 	*/
-	Group []*models.QuotaGroup
+	Groups []*models.QuotaGroup
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -54,9 +54,9 @@ func (o *GroupInsertParams) BindRequest(r *http.Request, route *middleware.Match
 		var body []*models.QuotaGroup
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			if err == io.EOF {
-				res = append(res, errors.Required("group", "body", ""))
+				res = append(res, errors.Required("groups", "body", ""))
 			} else {
-				res = append(res, errors.NewParseError("group", "body", "", err))
+				res = append(res, errors.NewParseError("groups", "body", "", err))
 			}
 		} else {
 
@@ -72,11 +72,11 @@ func (o *GroupInsertParams) BindRequest(r *http.Request, route *middleware.Match
 			}
 
 			if len(res) == 0 {
-				o.Group = body
+				o.Groups = body
 			}
 		}
 	} else {
-		res = append(res, errors.Required("group", "body", ""))
+		res = append(res, errors.Required("groups", "body", ""))
 	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)

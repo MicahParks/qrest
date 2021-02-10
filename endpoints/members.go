@@ -16,6 +16,11 @@ import (
 func HandleMembersAdd(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupMembersAddHandlerFunc {
 	return func(params api.GroupMembersAddParams) middleware.Responder {
 
+		// Debug info.
+		logger.Debugw("Touched.",
+			"groups", params.GroupMembers,
+		)
+
 		// Iterate through the map of quota-groups to members.
 		var err error
 		for groupName, members := range params.GroupMembers {
@@ -66,6 +71,11 @@ func HandleMembersAdd(logger *zap.SugaredLogger, quotaManager *backend.QuotaMana
 // HandleMemberDelete creates an endpoint handler via a closure that will delete members from quota-groups when used.
 func HandleMembersDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupMembersDeleteHandlerFunc {
 	return func(params api.GroupMembersDeleteParams) middleware.Responder {
+
+		// Debug info.
+		logger.Debugw("Touched.",
+			"groupMembers", params.GroupMembers,
+		)
 
 		// Iterate through the map of quota-groups to members.
 		var err error
@@ -118,6 +128,11 @@ func HandleMembersDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaM
 // is an extra endpoint that was not asked for.
 func HandleMembersRead(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupMembersReadHandlerFunc {
 	return func(params api.GroupMembersReadParams) middleware.Responder {
+
+		// Debug info.
+		logger.Debugw("Touched.",
+			"groups", params.Groups,
+		)
 
 		// Create the map returned to the client.
 		groupMembers := make(map[string]models.GroupMembers)

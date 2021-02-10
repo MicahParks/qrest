@@ -43,7 +43,7 @@ paths:
       parameters:
         - description: "The names of the quota-groups to delete."
           in: "body"
-          name: "group"
+          name: "groups"
           required: true
           schema:
             type: "array"
@@ -68,7 +68,7 @@ paths:
         - description: "The names of the quota-groups to insert. Order matters. If a quota-group is referenced as a
         member before it was inserted, an error will occur."
           in: "body"
-          name: "group"
+          name: "groups"
           required: true
           schema:
             type: "array"
@@ -96,7 +96,7 @@ paths:
       parameters:
         - description: "The name of the quota-groups to get the resource limits for."
           in: "body"
-          name: "group"
+          name: "groups"
           required: true
           schema:
             type: "array"

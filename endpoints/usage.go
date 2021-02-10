@@ -21,6 +21,11 @@ const (
 func HandleUsage(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupUsageHandlerFunc {
 	return func(params api.GroupUsageParams) middleware.Responder {
 
+		// Debug info.
+		logger.Debugw("Touched.",
+			"groups", params.Groups,
+		)
+
 		// Create the map to return to the client.
 		groupUsage := make(map[string]models.Usage)
 

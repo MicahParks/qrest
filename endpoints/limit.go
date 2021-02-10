@@ -20,7 +20,7 @@ func HandleGroupLimitsRead(logger *zap.SugaredLogger, quotaManager *backend.Quot
 		groupLimits := make(map[string]models.Limits)
 
 		// Iterate through the given quota-groups.
-		for _, groupName := range params.Group {
+		for _, groupName := range params.Groups {
 
 			// Check to see if the group is a duplicate.
 			if _, ok := groupLimits[groupName]; ok {

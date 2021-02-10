@@ -35,7 +35,7 @@ type GroupDeleteParams struct {
 	  Required: true
 	  In: body
 	*/
-	Group []string
+	Groups []string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -52,16 +52,16 @@ func (o *GroupDeleteParams) BindRequest(r *http.Request, route *middleware.Match
 		var body []string
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			if err == io.EOF {
-				res = append(res, errors.Required("group", "body", ""))
+				res = append(res, errors.Required("groups", "body", ""))
 			} else {
-				res = append(res, errors.NewParseError("group", "body", "", err))
+				res = append(res, errors.NewParseError("groups", "body", "", err))
 			}
 		} else {
 			// no validation required on inline body
-			o.Group = body
+			o.Groups = body
 		}
 	} else {
-		res = append(res, errors.Required("group", "body", ""))
+		res = append(res, errors.Required("groups", "body", ""))
 	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)

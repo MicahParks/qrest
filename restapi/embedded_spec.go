@@ -63,7 +63,7 @@ func init() {
         "parameters": [
           {
             "description": "The names of the quota-groups to insert. Order matters. If a quota-group is referenced as a member before it was inserted, an error will occur.",
-            "name": "group",
+            "name": "groups",
             "in": "body",
             "required": true,
             "schema": {
@@ -99,7 +99,7 @@ func init() {
         "parameters": [
           {
             "description": "The names of the quota-groups to delete.",
-            "name": "group",
+            "name": "groups",
             "in": "body",
             "required": true,
             "schema": {
@@ -140,7 +140,7 @@ func init() {
         "parameters": [
           {
             "description": "The name of the quota-groups to get the resource limits for.",
-            "name": "group",
+            "name": "groups",
             "in": "body",
             "required": true,
             "schema": {
@@ -499,7 +499,7 @@ func init() {
         "parameters": [
           {
             "description": "The names of the quota-groups to insert. Order matters. If a quota-group is referenced as a member before it was inserted, an error will occur.",
-            "name": "group",
+            "name": "groups",
             "in": "body",
             "required": true,
             "schema": {
@@ -535,7 +535,7 @@ func init() {
         "parameters": [
           {
             "description": "The names of the quota-groups to delete.",
-            "name": "group",
+            "name": "groups",
             "in": "body",
             "required": true,
             "schema": {
@@ -576,7 +576,7 @@ func init() {
         "parameters": [
           {
             "description": "The name of the quota-groups to get the resource limits for.",
-            "name": "group",
+            "name": "groups",
             "in": "body",
             "required": true,
             "schema": {
