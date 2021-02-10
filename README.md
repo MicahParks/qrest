@@ -69,7 +69,8 @@ manipulation of multiple quota-groups and/or members at once.
 
 This service was designed as a containerized microservice using Docker.
 
-This service is hosted live at snapapi.micahparks.com.
+This service is hosted live at snapapi.micahparks.com. It uses the image at `micahparks/snapapi` and snippets from this
+repo's `docker-compose.yml` and `Caddyfile`.
 
 This service has a rate limiter middleware that allows for up to 1 request per second.
 
@@ -77,9 +78,11 @@ This service has a rate limiter middleware that allows for up to 1 request per s
 
 TODO
 
-```
-HOST=0.0.0.0 PORT=30000 go run cmd/snap-api-challenge-server/main.go
-```
+`HOST=0.0.0.0 PORT=30000 go run cmd/snap-api-challenge-server/main.go`
+
+OR
+
+`docker-compose up`
 
 ## Improvements
 
