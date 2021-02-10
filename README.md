@@ -80,6 +80,6 @@ HOST=0.0.0.0 PORT=30000 go run cmd/snap-api-challenge-server/main.go
 
 - [ ] Implement the usage portion in the backend.
 - [ ] Add more logic to rate limiter middleware.
-- [ ] Add debug logging to endpoints.
+- [ ] More debug logging.
 - [ ] Add a logging middleware.
 - [ ] Use non-developer zap logger.

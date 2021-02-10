@@ -1,0 +1,21 @@
+[
+  {
+    "limits": {
+      "maxMemory": 512000000
+    },
+    "name": "application",
+    "subGroups": [
+      "UI",
+      "Daemon"
+    ]
+  },
+  {
+    "limits": {
+      "maxMemory": 256000000
+    },
+    "name": "Special-snap",
+    "snaps": [
+      "special-snap"
+    ]
+  }
+]

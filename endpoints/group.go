@@ -70,7 +70,7 @@ func HandleGroupInsert(logger *zap.SugaredLogger, quotaManager *backend.QuotaMan
 
 					// Report the group as unprocessable.
 					code := 422
-					message := fmt.Sprintf("The group \"%s\" was not processable. Empty group names or nil resource limits are not allowed.", group.Name)
+					message := fmt.Sprintf("The group \"%s\" was not processable. Empty group names are not allowed.", group.Name)
 					resp := &api.GroupInsertDefault{Payload: &models.Error{
 						Code:    int64(code),
 						Message: message,
