@@ -6,7 +6,10 @@ import (
 	"crypto/tls"
 	"log"
 	"net/http"
+	"time"
 
+	"github.com/didip/tollbooth"
+	"github.com/didip/tollbooth/limiter"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 
@@ -80,5 +83,14 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics.
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
-	return handler
+
+	// Create an incoming request rate limiter that only allows 1 request per section and forgets about clients after 1
+	// hour.
+	limit := tollbooth.NewLimiter(1, &limiter.ExpirableOptions{DefaultExpirationTTL: time.Hour})
+
+	// Find the IP of the client in the X-Forwarded-For header, because Caddy will be the server in front of this.
+	limit.SetIPLookups([]string{"X-Forwarded-For"})
+
+	// Follow the HTTP middleware pattern.
+	return tollbooth.LimitHandler(limit, handler) // TODO Logging middleware. Maybe another rate limiter instead.
 }
