@@ -13,7 +13,7 @@ import (
 	"github.com/MicahParks/qrest/restapi/operations/api"
 )
 
-// HandleGroupDelete TODO
+// HandleGroupDelete creates an endpoint handler via a closure that will delete quota-groups when used.
 func HandleGroupDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupDeleteHandlerFunc {
 	return func(params api.GroupDeleteParams) middleware.Responder {
 
@@ -47,7 +47,7 @@ func HandleGroupDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaMan
 	}
 }
 
-// HandleGroupInsert TODO
+// HandleGroupInsert creates an endpoint handler via a closure that will insert quota-groups when used.
 func HandleGroupInsert(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupInsertHandlerFunc {
 	return func(params api.GroupInsertParams) middleware.Responder {
 

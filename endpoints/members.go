@@ -12,7 +12,7 @@ import (
 	"github.com/MicahParks/qrest/restapi/operations/api"
 )
 
-// HandleMembersAdd TODO
+// HandleMembersAdd creates an endpoint handler via a closure that will add members to quota-groups when used.
 func HandleMembersAdd(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupMembersAddHandlerFunc {
 	return func(params api.GroupMembersAddParams) middleware.Responder {
 
@@ -63,7 +63,7 @@ func HandleMembersAdd(logger *zap.SugaredLogger, quotaManager *backend.QuotaMana
 	}
 }
 
-// HandleMemberDelete TODO
+// HandleMemberDelete creates an endpoint handler via a closure that will delete members from quota-groups when used.
 func HandleMembersDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupMembersDeleteHandlerFunc {
 	return func(params api.GroupMembersDeleteParams) middleware.Responder {
 
@@ -114,7 +114,8 @@ func HandleMembersDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaM
 	}
 }
 
-// HandleMemberRead TODO. This is an extra endpoint that was not asked for.
+// HandleMemberRead creates an endpoint handler via a closure that will read members from quota-groups when used. This
+// is an extra endpoint that was not asked for.
 func HandleMembersRead(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupMembersReadHandlerFunc {
 	return func(params api.GroupMembersReadParams) middleware.Responder {
 
@@ -157,7 +158,8 @@ func HandleMembersRead(logger *zap.SugaredLogger, quotaManager *backend.QuotaMan
 	}
 }
 
-// memberAddRequestFailure TODO
+// memberAddRequestFailure helps cut down on duplicate code by logging an error and creating the appropriate response
+// type.
 func memberFailure(addMember bool, err error, groupName string, logger *zap.SugaredLogger, memberName, memberType string) middleware.Responder {
 
 	// Log the error.

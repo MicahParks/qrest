@@ -11,7 +11,8 @@ import (
 	"github.com/MicahParks/qrest/restapi/operations/api"
 )
 
-// HandleGroupLimitsRead TODO
+// HandleGroupLimitsRead creates an endpoint handler via a closure that will read resource limits for quota-groups when
+// used.
 func HandleGroupLimitsRead(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupLimitReadHandlerFunc {
 	return func(params api.GroupLimitReadParams) middleware.Responder {
 
@@ -61,7 +62,8 @@ func HandleGroupLimitsRead(logger *zap.SugaredLogger, quotaManager *backend.Quot
 	}
 }
 
-// HandleGroupLimitsWrite TODO
+// HandleGroupLimitsWrite creates an endpoint handler via a closure that will write resource limits for quota-groups
+// when used.
 func HandleGroupLimitsWrite(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupLimitWriteHandlerFunc {
 	return func(params api.GroupLimitWriteParams) middleware.Responder {
 

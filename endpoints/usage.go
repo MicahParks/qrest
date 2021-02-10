@@ -17,7 +17,7 @@ const (
 	memoryUsageKey = "memory"
 )
 
-// HandleUsage TODO
+// HandleUsage creates an endpoint handler via a closure that will read quota-group usage when used.
 func HandleUsage(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupUsageHandlerFunc {
 	return func(params api.GroupUsageParams) middleware.Responder {
 
