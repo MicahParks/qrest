@@ -62,15 +62,16 @@ func HandleGroupInsert(logger *zap.SugaredLogger, quotaManager *backend.QuotaMan
 		)
 
 		// Iterate through the given groups.
-		for _, group := range params.Groups {
-			if group != nil {
+		var err error
+		for _, inputGroup := range params.Groups {
+			if inputGroup != nil {
 
 				// Validate the input (more than the default amount).
-				if group.Name == "" {
+				if inputGroup.Name == "" {
 
 					// Report the group as unprocessable.
 					code := 422
-					message := fmt.Sprintf("The group \"%s\" was not processable. Empty group names are not allowed.", group.Name)
+					message := fmt.Sprintf("The group \"%s\" was not processable. Empty group names are not allowed.", inputGroup.Name)
 					resp := &api.GroupInsertDefault{Payload: &models.Error{
 						Code:    int64(code),
 						Message: message,
@@ -82,12 +83,58 @@ func HandleGroupInsert(logger *zap.SugaredLogger, quotaManager *backend.QuotaMan
 
 				// If no limit was provided, use 0.
 				var memoryLimit uint64
-				if group.Limits != nil {
-					memoryLimit = group.Limits.MaxMemory
+				if inputGroup.Limits != nil {
+					memoryLimit = inputGroup.Limits.MaxMemory
 				}
 
 				// Add the group to the quota manager.
-				quotaManager.AddGroup(group.Name, memoryLimit)
+				group := quotaManager.AddGroup(inputGroup.Name, memoryLimit)
+
+				// Iterate through the input quota-group's member quota-groups.
+				for _, groupName := range inputGroup.SubGroups {
+
+					// Confirm the group exists in the quoteManager.
+					if quotaManager.GetGroup(groupName) != nil {
+						if err = group.AddGroup(groupName); err != nil {
+
+							// Log the event.
+							message := fmt.Sprintf("Could not add \"%s\" member quota-group.", groupName)
+							logger.Infow(message,
+								"groupName", groupName,
+								"error", err.Error(),
+							)
+
+							// Report the error to the client.
+							code := 500
+							resp := &api.GroupInsertDefault{Payload: &models.Error{
+								Code:    int64(code),
+								Message: message,
+							}}
+							resp.SetStatusCode(code)
+
+							return resp
+						}
+					} else {
+
+						// Report the error to the client.
+						message := fmt.Sprintf("Could not add \"%s\" member quota-group because it is not tracked by the quota manager.", groupName)
+						code := 400
+						resp := &api.GroupInsertDefault{Payload: &models.Error{
+							Code:    int64(code),
+							Message: message,
+						}}
+						resp.SetStatusCode(code)
+
+						return resp
+					}
+				}
+
+				// Iterate through the input quota-group's snaps.
+				for _, snap := range inputGroup.Snaps {
+
+					// Add the snap to the quota-group.
+					group.AddSnap(snap)
+				}
 			}
 		}
 

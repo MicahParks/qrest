@@ -269,7 +269,7 @@ definitions:
         type: "array"
         items:
           type: "string"
-      subGroups:
+      memberGroups:
         type: "array"
         items:
           type: "string"

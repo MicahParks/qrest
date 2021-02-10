@@ -385,13 +385,13 @@ func init() {
     "GroupMembers": {
       "type": "object",
       "properties": {
-        "snaps": {
+        "memberGroups": {
           "type": "array",
           "items": {
             "type": "string"
           }
         },
-        "subGroups": {
+        "snaps": {
           "type": "array",
           "items": {
             "type": "string"
@@ -821,13 +821,13 @@ func init() {
     "GroupMembers": {
       "type": "object",
       "properties": {
-        "snaps": {
+        "memberGroups": {
           "type": "array",
           "items": {
             "type": "string"
           }
         },
-        "subGroups": {
+        "snaps": {
           "type": "array",
           "items": {
             "type": "string"

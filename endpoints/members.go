@@ -46,7 +46,7 @@ func HandleMembersAdd(logger *zap.SugaredLogger, quotaManager *backend.QuotaMana
 			}
 
 			// Iterate through the member quota-groups.
-			for _, memberGroup := range members.SubGroups {
+			for _, memberGroup := range members.MemberGroups {
 
 				// Add the member quota-group to the quota-group.
 				if err = group.AddGroup(memberGroup); err != nil {
@@ -102,7 +102,7 @@ func HandleMembersDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaM
 			}
 
 			// Iterate through the member quota-groups.
-			for _, memberGroup := range members.SubGroups {
+			for _, memberGroup := range members.MemberGroups {
 
 				// Add the member quota-group to the quota-group.
 				if err = group.RemoveGroup(memberGroup); err != nil {
@@ -162,8 +162,8 @@ func HandleMembersRead(logger *zap.SugaredLogger, quotaManager *backend.QuotaMan
 
 			// Add the group's group members to the map.
 			groupMembers[groupName] = models.GroupMembers{
-				Snaps:     group.Snaps(),
-				SubGroups: group.Groups(),
+				Snaps:        group.Snaps(),
+				MemberGroups: group.Groups(),
 			}
 		}
 

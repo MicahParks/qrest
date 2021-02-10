@@ -61,6 +61,9 @@ add to any of the mock backend code.
 
 This service defaults resource limits to zero.
 
+This service will not allow a quota-group to be added as a member to another quota-group if it is not already present in
+the quota manager.
+
 This service was designed with bulk transactions in mind. All endpoints consume JSON that allows for the querying or
 manipulation of multiple quota-groups and/or members at once.
 
@@ -71,7 +74,9 @@ This service is hosted live at snapapi.micahparks.com.
 This service has a rate limiter middleware that allows for up to 1 request per second.
 
 ## Running locally
+
 TODO
+
 ```
 HOST=0.0.0.0 PORT=30000 go run cmd/snap-api-challenge-server/main.go
 ```

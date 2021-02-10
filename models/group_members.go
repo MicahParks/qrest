@@ -17,11 +17,11 @@ import (
 // swagger:model GroupMembers
 type GroupMembers struct {
 
+	// member groups
+	MemberGroups []string `json:"memberGroups"`
+
 	// snaps
 	Snaps []string `json:"snaps"`
-
-	// sub groups
-	SubGroups []string `json:"subGroups"`
 }
 
 // Validate validates this group members
