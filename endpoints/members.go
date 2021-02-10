@@ -23,7 +23,21 @@ func HandleMembersAdd(logger *zap.SugaredLogger, quotaManager *backend.QuotaMana
 			// Get the group from the quota manager.
 			var group *backend.QuotaGroup
 			if group = quotaManager.GetGroup(groupName); group == nil {
-				// TODO
+
+				// Log the event.
+				code, message := groupNotFound(groupName)
+				logger.Infow(message,
+					"groupName", groupName,
+				)
+
+				// Report the error to the client.
+				resp := &api.GroupMembersAddDefault{Payload: &models.Error{
+					Code:    int64(code),
+					Message: message,
+				}}
+				resp.SetStatusCode(code)
+
+				return resp
 			}
 
 			// Iterate through the member quota-groups.
@@ -60,7 +74,21 @@ func HandleMembersDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaM
 			// Get the group from the quota manager.
 			var group *backend.QuotaGroup
 			if group = quotaManager.GetGroup(groupName); group == nil {
-				// TODO
+
+				// Log the event.
+				code, message := groupNotFound(groupName)
+				logger.Infow(message,
+					"groupName", groupName,
+				)
+
+				// Report the error to the client.
+				resp := &api.GroupMembersDeleteDefault{Payload: &models.Error{
+					Code:    int64(code),
+					Message: message,
+				}}
+				resp.SetStatusCode(code)
+
+				return resp
 			}
 
 			// Iterate through the member quota-groups.

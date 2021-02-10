@@ -1,6 +1,8 @@
 package endpoints
 
 import (
+	"fmt"
+
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/mvo5/qrest-skeleton/backend"
 	"go.uber.org/zap"
@@ -27,7 +29,21 @@ func HandleGroupLimitsRead(logger *zap.SugaredLogger, quotaManager *backend.Quot
 			// Get the group from the quota manager.
 			var group *backend.QuotaGroup
 			if group = quotaManager.GetGroup(groupName); group == nil {
-				// TODO
+
+				// Log the event.
+				code, message := groupNotFound(groupName)
+				logger.Infow(message,
+					"groupName", groupName,
+				)
+
+				// Report the error to the client.
+				resp := &api.GroupLimitReadDefault{Payload: &models.Error{
+					Code:    int64(code),
+					Message: message,
+				}}
+				resp.SetStatusCode(code)
+
+				return resp
 			}
 
 			// Create the limits Go structure.
@@ -56,12 +72,42 @@ func HandleGroupLimitsWrite(logger *zap.SugaredLogger, quotaManager *backend.Quo
 			// Get the group from the quota manager.
 			var group *backend.QuotaGroup
 			if group = quotaManager.GetGroup(groupName); group == nil {
-				// TODO
+
+				// Log the event.
+				code, message := groupNotFound(groupName)
+				logger.Infow(message,
+					"groupName", groupName,
+				)
+
+				// Report the error to the client.
+				resp := &api.GroupLimitWriteDefault{Payload: &models.Error{
+					Code:    int64(code),
+					Message: message,
+				}}
+				resp.SetStatusCode(code)
+
+				return resp
 			}
 
 			// Set the maximum memory for the quota-group.
 			if err = group.SetMaxMemory(limits.MaxMemory); err != nil {
-				// TODO
+
+				// Log the event.
+				message := fmt.Sprintf("Failed to set the maxium memory for member \"%s\".", groupName)
+				logger.Infow(message,
+					"groupName", groupName,
+					"error", err.Error(),
+				)
+
+				// Report the error to the client.
+				code := 500
+				resp := &api.GroupMembersDeleteDefault{Payload: &models.Error{
+					Code:    int64(code),
+					Message: message,
+				}}
+				resp.SetStatusCode(code)
+
+				return resp
 			}
 		}
 
