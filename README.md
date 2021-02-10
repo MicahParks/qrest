@@ -81,15 +81,32 @@ repo's `docker-compose.yml` and `Caddyfile`.
 
 This service has a rate limiter middleware that allows for up to 1 request per second.
 
+There repo has a couple `TODO`s which suggest improvements for the service. Most of these are listed below as well.
+
 ## Running locally
 
-TODO
+Running the code on your local machine can take two forms. You may either use the `go` tool to compile and run, or use
+`docker-compose`.
 
-`HOST=0.0.0.0 PORT=30000 go run cmd/snap-api-challenge-server/main.go`
+#### Compiled with environment variables
 
-OR
+`HOST=0.0.0.0 PORT=30000 go run cmd/snap-api-challenge-server/main.go` (This will use plaintext HTTP and use
+port `30000`.)
+
+#### Docker
 
 `docker-compose up` (This will create a self-signed certificate and use ports `80` and `443`.)
+
+## Testing
+
+Testing is essential for any service. However, this service is a challenge and loosely time-boxed. I chose to not
+implement any formal tests for this service due to time.
+
+However, there are two files, `exampleCurl.local.sh` and `exampleCurl.sh` that I quickly wrote to show that the service
+will perform what's expected of it in `challenge.pdf`'s example. If you run the `exampleCurl.sh` script on an internet
+connected computer with `curl` installed, it will bring the live deployed service on the public internet to the state
+described in the example. If you run the service locally with the instructions under
+`Compiled with environment variables`, the `exampleCurl.local.sh` script will do the same to your local service.
 
 ## Improvements
 
