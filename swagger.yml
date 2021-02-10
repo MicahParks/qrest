@@ -185,8 +185,36 @@ paths:
       tags:
         - "api"
 
-#  /group/{group}/usage: TODO
-#    get:
+  /group/usage:
+    get:
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      summary: "Get the quota usage information for a quota-group."
+      description: "" # TODO
+      operationId: "groupUsage"
+      parameters:
+        - description: "The names of the quota-groups to get the usage information for."
+          in: "body"
+          name: "groups"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+      responses:
+        200:
+          description: "The a mapping of quota-group names to usage information."
+          schema:
+            additionalProperties:
+              $ref: "#/definitions/Usage"
+        default:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/Error"
+      tags:
+        - "api"
+
 
 definitions:
 
@@ -239,3 +267,12 @@ definitions:
         type: "array"
         items:
           type: "string"
+
+  # Schema for quota usage.
+  Usage:
+    additionalProperties:
+      properties:
+        max:
+          type: "number"
+        usage:
+          type: "number"

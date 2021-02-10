@@ -266,6 +266,50 @@ func init() {
           }
         }
       }
+    },
+    "/group/usage": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "api"
+        ],
+        "summary": "Get the quota usage information for a quota-group.",
+        "operationId": "groupUsage",
+        "parameters": [
+          {
+            "description": "The names of the quota-groups to get the usage information for.",
+            "name": "groups",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The a mapping of quota-group names to usage information.",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Usage"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -329,6 +373,18 @@ func init() {
           "type": "array",
           "items": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "Usage": {
+      "additionalProperties": {
+        "properties": {
+          "max": {
+            "type": "number"
+          },
+          "usage": {
+            "type": "number"
           }
         }
       }
@@ -593,6 +649,50 @@ func init() {
           }
         }
       }
+    },
+    "/group/usage": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "api"
+        ],
+        "summary": "Get the quota usage information for a quota-group.",
+        "operationId": "groupUsage",
+        "parameters": [
+          {
+            "description": "The names of the quota-groups to get the usage information for.",
+            "name": "groups",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The a mapping of quota-group names to usage information.",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Usage"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -657,6 +757,21 @@ func init() {
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "Usage": {
+      "additionalProperties": {
+        "$ref": "#/definitions/UsageAnon"
+      }
+    },
+    "UsageAnon": {
+      "properties": {
+        "max": {
+          "type": "number"
+        },
+        "usage": {
+          "type": "number"
         }
       }
     }
