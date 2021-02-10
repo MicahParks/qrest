@@ -93,6 +93,7 @@ OR
 
 ## Improvements
 
+- [ ] Write Postman tests and Go tests utilizing `httptest`, `gocheck`, etc.
 - [ ] Implement the usage portion in the backend.
 - [ ] Add more logic to rate limiter middleware.
 - [ ] More debug logging.
