@@ -48,18 +48,30 @@ func HandleGroupDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaMan
 }
 
 // HandleGroupInsert creates an endpoint handler via a closure that will insert quota-groups when used.
-func HandleGroupInsert(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupInsertHandlerFunc {
+func HandleGroupInsert(_ *zap.SugaredLogger, quotaManager *backend.QuotaManager) api.GroupInsertHandlerFunc {
 	return func(params api.GroupInsertParams) middleware.Responder {
 
 		// Iterate through the given groups.
 		for _, group := range params.Group {
 			if group != nil {
+
+				// Validate the input (more than the default amount).
 				if group.Name == "" || group.Limits == nil {
-					// TODO Return 422 Unprocessable.
+
+					// Report the group as unprocessable.
+					code := 422
+					message := fmt.Sprintf("The group \"%s\" was not processable. Empty group names or nil resource limits are not allowed.", group.Name)
+					resp := &api.GroupInsertDefault{Payload: &models.Error{
+						Code:    int64(code),
+						Message: message,
+					}}
+					resp.SetStatusCode(code)
+
+					return resp
 				}
 
 				// Add the group to the quota manager.
-				quotaManager.AddGroup(group.Name, uint64(group.Limits.MaxMemory)) // TODO Integer conversion doesn't allow for full uint64.
+				quotaManager.AddGroup(group.Name, group.Limits.MaxMemory)
 			}
 		}
 
