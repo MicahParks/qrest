@@ -21,7 +21,10 @@ func HandleMembersAdd(logger *zap.SugaredLogger, quotaManager *backend.QuotaMana
 		for groupName, members := range params.GroupMembers {
 
 			// Get the group from the quota manager.
-			group := quotaManager.GetGroup(groupName)
+			var group *backend.QuotaGroup
+			if group = quotaManager.GetGroup(groupName); group == nil {
+				// TODO
+			}
 
 			// Iterate through the member quota-groups.
 			for _, memberGroup := range members.SubGroups {
@@ -55,7 +58,10 @@ func HandleMembersDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaM
 		for groupName, members := range params.GroupMembers {
 
 			// Get the group from the quota manager.
-			group := quotaManager.GetGroup(groupName)
+			var group *backend.QuotaGroup
+			if group = quotaManager.GetGroup(groupName); group == nil {
+				// TODO
+			}
 
 			// Iterate through the member quota-groups.
 			for _, memberGroup := range members.SubGroups {

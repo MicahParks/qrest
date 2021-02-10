@@ -7,9 +7,10 @@ import (
 
 	"go.uber.org/zap"
 
+	"github.com/mvo5/qrest-skeleton/backend"
+
 	"github.com/MicahParks/qrest/models"
 	"github.com/MicahParks/qrest/restapi/operations/api"
-	"github.com/mvo5/qrest-skeleton/backend"
 )
 
 // HandleGroupDelete TODO

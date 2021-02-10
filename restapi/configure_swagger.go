@@ -45,8 +45,8 @@ func configureAPI(api *operations.SwaggerAPI) http.Handler {
 	api.SystemAliveHandler = system.HandleAlive()
 	api.APIGroupDeleteHandler = endpoints.HandleGroupDelete(logger.Named("DELETE /group"), quotaManager)
 	api.APIGroupInsertHandler = endpoints.HandleGroupInsert(logger.Named("POST /group"), quotaManager)
-	//api.APIGroupLimitReadHandler
-	//api.APIGroupLimitWriteHandler
+	api.APIGroupLimitReadHandler = endpoints.HandleGroupLimitsRead(logger.Named("GET /group/limits"), quotaManager)
+	api.APIGroupLimitWriteHandler = endpoints.HandleGroupLimitsWrite(logger.Named("POST /group/limits"), quotaManager)
 	api.APIGroupMembersAddHandler = endpoints.HandleMembersAdd(logger.Named("POST /group/members"), quotaManager)
 	api.APIGroupMembersDeleteHandler = endpoints.HandleMembersDelete(logger.Named("DELETE /group/members"), quotaManager)
 

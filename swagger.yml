@@ -222,6 +222,7 @@ definitions:
     properties:
       maxMemory:
         type: "integer"
+        format: "uint64"
 
   # Schema for quota-group.
   QuotaGroup:

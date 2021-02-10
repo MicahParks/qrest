@@ -306,7 +306,8 @@ func init() {
     "Limits": {
       "properties": {
         "maxMemory": {
-          "type": "integer"
+          "type": "integer",
+          "format": "uint64"
         }
       }
     },
@@ -632,7 +633,8 @@ func init() {
     "Limits": {
       "properties": {
         "maxMemory": {
-          "type": "integer"
+          "type": "integer",
+          "format": "uint64"
         }
       }
     },

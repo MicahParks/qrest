@@ -18,7 +18,7 @@ import (
 type Limits struct {
 
 	// max memory
-	MaxMemory int64 `json:"maxMemory,omitempty"`
+	MaxMemory uint64 `json:"maxMemory,omitempty"`
 }
 
 // Validate validates this limits
