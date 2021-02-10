@@ -33,6 +33,8 @@ func NewGroupUsage(ctx *middleware.Context, handler GroupUsageHandler) *GroupUsa
 
 Get the quota usage information for a quota-group.
 
+Given an array of quota-groups, create a mapping of quota-groups to resource usage.
+
 */
 type GroupUsage struct {
 	Context *middleware.Context

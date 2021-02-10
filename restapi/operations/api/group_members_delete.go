@@ -33,6 +33,8 @@ func NewGroupMembersDelete(ctx *middleware.Context, handler GroupMembersDeleteHa
 
 Delete members from the quota-group.
 
+Given a map of quota-groups to members, disassociate the given members from their associated quota-groups on the backend.
+
 */
 type GroupMembersDelete struct {
 	Context *middleware.Context

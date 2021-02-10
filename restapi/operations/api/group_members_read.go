@@ -33,6 +33,8 @@ func NewGroupMembersRead(ctx *middleware.Context, handler GroupMembersReadHandle
 
 Get the members of quota-groups.
 
+Given an array of quota-group names, return a mapping of quota-group names to members.
+
 */
 type GroupMembersRead struct {
 	Context *middleware.Context

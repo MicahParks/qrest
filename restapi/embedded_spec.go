@@ -23,6 +23,8 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
+    "description": "This API is for a coding interview challenge for Canonical's snap team.",
+    "title": "snap API challenge",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
@@ -49,13 +51,14 @@ func init() {
     },
     "/group": {
       "post": {
+        "description": "Insert all given quota-groups to the backend. ",
         "consumes": [
           "application/json"
         ],
         "tags": [
           "api"
         ],
-        "summary": "Insert a quota-group.",
+        "summary": "Insert quota-groups.",
         "operationId": "groupInsert",
         "parameters": [
           {
@@ -84,13 +87,14 @@ func init() {
         }
       },
       "delete": {
+        "description": "Delete all the given quota-groups from the backend.",
         "consumes": [
           "application/json"
         ],
         "tags": [
           "api"
         ],
-        "summary": "Delete a quota-group.",
+        "summary": "Delete quota-groups.",
         "operationId": "groupDelete",
         "parameters": [
           {
@@ -121,6 +125,7 @@ func init() {
     },
     "/group/limits": {
       "get": {
+        "description": "Given an array of quota-groups, return all of their limits in a map.",
         "consumes": [
           "application/json"
         ],
@@ -130,11 +135,11 @@ func init() {
         "tags": [
           "api"
         ],
-        "summary": "Get the resource limits for the given quota-group.",
+        "summary": "Get the resource limits for the given quota-groups.",
         "operationId": "groupLimitRead",
         "parameters": [
           {
-            "description": "The name of the quota-groups to get the limits for.",
+            "description": "The name of the quota-groups to get the resource limits for.",
             "name": "group",
             "in": "body",
             "required": true,
@@ -165,6 +170,7 @@ func init() {
         }
       },
       "post": {
+        "description": "Given a map of quota-group names to resource limits, set the resource limits for the quota-groups on the backend.",
         "consumes": [
           "application/json"
         ],
@@ -201,6 +207,7 @@ func init() {
     },
     "/group/members": {
       "get": {
+        "description": "Given an array of quota-group names, return a mapping of quota-group names to members.",
         "consumes": [
           "application/json"
         ],
@@ -243,6 +250,7 @@ func init() {
         }
       },
       "post": {
+        "description": "Given a mapping of quota-group names to members, add the members to the quota-groups.",
         "consumes": [
           "application/json"
         ],
@@ -276,6 +284,7 @@ func init() {
         }
       },
       "delete": {
+        "description": "Given a map of quota-groups to members, disassociate the given members from their associated quota-groups on the backend.",
         "consumes": [
           "application/json"
         ],
@@ -311,6 +320,7 @@ func init() {
     },
     "/group/usage": {
       "get": {
+        "description": "Given an array of quota-groups, create a mapping of quota-groups to resource usage.",
         "consumes": [
           "application/json"
         ],
@@ -434,6 +444,7 @@ func init() {
   },
   "tags": [
     {
+      "description": "Endpoints fulfilling the challenge requirements.",
       "name": "api"
     },
     {
@@ -448,6 +459,8 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
+    "description": "This API is for a coding interview challenge for Canonical's snap team.",
+    "title": "snap API challenge",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
@@ -474,13 +487,14 @@ func init() {
     },
     "/group": {
       "post": {
+        "description": "Insert all given quota-groups to the backend. ",
         "consumes": [
           "application/json"
         ],
         "tags": [
           "api"
         ],
-        "summary": "Insert a quota-group.",
+        "summary": "Insert quota-groups.",
         "operationId": "groupInsert",
         "parameters": [
           {
@@ -509,13 +523,14 @@ func init() {
         }
       },
       "delete": {
+        "description": "Delete all the given quota-groups from the backend.",
         "consumes": [
           "application/json"
         ],
         "tags": [
           "api"
         ],
-        "summary": "Delete a quota-group.",
+        "summary": "Delete quota-groups.",
         "operationId": "groupDelete",
         "parameters": [
           {
@@ -546,6 +561,7 @@ func init() {
     },
     "/group/limits": {
       "get": {
+        "description": "Given an array of quota-groups, return all of their limits in a map.",
         "consumes": [
           "application/json"
         ],
@@ -555,11 +571,11 @@ func init() {
         "tags": [
           "api"
         ],
-        "summary": "Get the resource limits for the given quota-group.",
+        "summary": "Get the resource limits for the given quota-groups.",
         "operationId": "groupLimitRead",
         "parameters": [
           {
-            "description": "The name of the quota-groups to get the limits for.",
+            "description": "The name of the quota-groups to get the resource limits for.",
             "name": "group",
             "in": "body",
             "required": true,
@@ -590,6 +606,7 @@ func init() {
         }
       },
       "post": {
+        "description": "Given a map of quota-group names to resource limits, set the resource limits for the quota-groups on the backend.",
         "consumes": [
           "application/json"
         ],
@@ -626,6 +643,7 @@ func init() {
     },
     "/group/members": {
       "get": {
+        "description": "Given an array of quota-group names, return a mapping of quota-group names to members.",
         "consumes": [
           "application/json"
         ],
@@ -668,6 +686,7 @@ func init() {
         }
       },
       "post": {
+        "description": "Given a mapping of quota-group names to members, add the members to the quota-groups.",
         "consumes": [
           "application/json"
         ],
@@ -701,6 +720,7 @@ func init() {
         }
       },
       "delete": {
+        "description": "Given a map of quota-groups to members, disassociate the given members from their associated quota-groups on the backend.",
         "consumes": [
           "application/json"
         ],
@@ -736,6 +756,7 @@ func init() {
     },
     "/group/usage": {
       "get": {
+        "description": "Given an array of quota-groups, create a mapping of quota-groups to resource usage.",
         "consumes": [
           "application/json"
         ],
@@ -862,6 +883,7 @@ func init() {
   },
   "tags": [
     {
+      "description": "Endpoints fulfilling the challenge requirements.",
       "name": "api"
     },
     {

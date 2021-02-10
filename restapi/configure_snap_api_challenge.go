@@ -16,13 +16,13 @@ import (
 	"github.com/MicahParks/qrest/restapi/operations"
 )
 
-//go:generate swagger generate server --target ../../qrest-skeleton --name Swagger --spec ../swagger.yml --principal interface{}
+//go:generate swagger generate server --target ../../qrest-skeleton --name SnapAPIChallenge --spec ../swagger.yml --principal interface{}
 
-func configureFlags(api *operations.SwaggerAPI) {
+func configureFlags(api *operations.SnapAPIChallengeAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
 }
 
-func configureAPI(api *operations.SwaggerAPI) http.Handler {
+func configureAPI(api *operations.SnapAPIChallengeAPI) http.Handler {
 	// configure the api here
 	api.ServeError = errors.ServeError
 

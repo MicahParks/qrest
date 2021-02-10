@@ -5,15 +5,15 @@ basePath: "/api/v0"
 host: "localhost"
 
 info:
-  description: "" # TODO
+  description: "This API is for a coding interview challenge for Canonical's snap team."
   license:
     name: "MIT"
     url: "https://opensource.org/licenses/MIT"
-  title: "" # TODO
+  title: "snap API challenge"
   version: "0.0.1"
 
 tags:
-  - description: "" # TODO
+  - description: "Endpoints fulfilling the challenge requirements."
     name: "api"
   - description: "Endpoints required by the system that are not public facing."
     name: "system"
@@ -37,8 +37,8 @@ paths:
     delete:
       consumes:
         - "application/json"
-      summary: "Delete a quota-group."
-      description: "" # TODO
+      summary: "Delete quota-groups."
+      description: "Delete all the given quota-groups from the backend."
       operationId: "groupDelete"
       parameters:
         - description: "The names of the quota-groups to delete."
@@ -61,8 +61,9 @@ paths:
     post:
       consumes:
         - "application/json"
-      summary: "Insert a quota-group."
-      description: "" # TODO
+      summary: "Insert quota-groups."
+      description: "Insert all given quota-groups to the backend.
+      "
       operationId: "groupInsert"
       parameters:
         - description: "The names of the quota-groups to insert. Order matters. If a quota-group is referenced as a
@@ -90,11 +91,11 @@ paths:
         - "application/json"
       produces:
         - "application/json"
-      summary: "Get the resource limits for the given quota-group."
-      description: "" # TODO.
+      summary: "Get the resource limits for the given quota-groups."
+      description: "Given an array of quota-groups, return all of their limits in a map."
       operationId: "groupLimitRead"
       parameters:
-        - description: "The name of the quota-groups to get the limits for."
+        - description: "The name of the quota-groups to get the resource limits for."
           in: "body"
           name: "group"
           required: true
@@ -119,7 +120,8 @@ paths:
       consumes:
         - "application/json"
       summary: "Set the resource limits for the given quota-groups."
-      description: "" # TODO
+      description: "Given a map of quota-group names to resource limits, set the resource limits for the quota-groups on
+      the backend."
       operationId: "groupLimitWrite"
       parameters:
         - description: "The mapping of quota-group names to resource limits."
@@ -144,7 +146,8 @@ paths:
       consumes:
         - "application/json"
       summary: "Delete members from the quota-group."
-      description: "" # TODO
+      description: "Given a map of quota-groups to members, disassociate the given members from their associated
+      quota-groups on the backend."
       operationId: "groupMembersDelete"
       parameters:
         - description: "The mapping of quota-group names to the snaps and member quota-groups to remove."
@@ -168,7 +171,7 @@ paths:
       produces:
         - "application/json"
       summary: "Get the members of quota-groups."
-      description: "" # TODO
+      description: "Given an array of quota-group names, return a mapping of quota-group names to members."
       operationId: "groupMembersRead"
       parameters:
         - description: "The names of the quota-groups to get members from."
@@ -194,7 +197,7 @@ paths:
       consumes:
         - "application/json"
       summary: "Add members to the quota-group."
-      description: "" # TODO
+      description: "Given a mapping of quota-group names to members, add the members to the quota-groups."
       operationId: "groupMembersAdd"
       parameters:
         - description: "The mapping of quota-group names to the snaps and member quota-groups to add."
@@ -220,7 +223,7 @@ paths:
       produces:
         - "application/json"
       summary: "Get the quota usage information for a quota-group."
-      description: "" # TODO
+      description: "Given an array of quota-groups, create a mapping of quota-groups to resource usage."
       operationId: "groupUsage"
       parameters:
         - description: "The names of the quota-groups to get the usage information for."

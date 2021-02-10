@@ -23,13 +23,13 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	api := operations.NewSwaggerAPI(swaggerSpec)
+	api := operations.NewSnapAPIChallengeAPI(swaggerSpec)
 	server := restapi.NewServer(api)
 	defer server.Shutdown()
 
 	parser := flags.NewParser(server, flags.Default)
-	parser.ShortDescription = swaggerSpec.Spec().Info.Title
-	parser.LongDescription = swaggerSpec.Spec().Info.Description
+	parser.ShortDescription = "snap API challenge"
+	parser.LongDescription = "This API is for a coding interview challenge for Canonical's snap team."
 	server.ConfigureFlags()
 	for _, optsGroup := range api.CommandLineOptionsGroups {
 		_, err := parser.AddGroup(optsGroup.ShortDescription, optsGroup.LongDescription, optsGroup.Options)

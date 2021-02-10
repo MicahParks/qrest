@@ -33,6 +33,8 @@ func NewGroupMembersAdd(ctx *middleware.Context, handler GroupMembersAddHandler)
 
 Add members to the quota-group.
 
+Given a mapping of quota-group names to members, add the members to the quota-groups.
+
 */
 type GroupMembersAdd struct {
 	Context *middleware.Context

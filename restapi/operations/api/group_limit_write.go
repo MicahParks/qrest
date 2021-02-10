@@ -33,6 +33,8 @@ func NewGroupLimitWrite(ctx *middleware.Context, handler GroupLimitWriteHandler)
 
 Set the resource limits for the given quota-groups.
 
+Given a map of quota-group names to resource limits, set the resource limits for the quota-groups on the backend.
+
 */
 type GroupLimitWrite struct {
 	Context *middleware.Context

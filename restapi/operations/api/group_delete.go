@@ -31,7 +31,9 @@ func NewGroupDelete(ctx *middleware.Context, handler GroupDeleteHandler) *GroupD
 
 /* GroupDelete swagger:route DELETE /group api groupDelete
 
-Delete a quota-group.
+Delete quota-groups.
+
+Delete all the given quota-groups from the backend.
 
 */
 type GroupDelete struct {

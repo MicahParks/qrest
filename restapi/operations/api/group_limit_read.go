@@ -31,7 +31,9 @@ func NewGroupLimitRead(ctx *middleware.Context, handler GroupLimitReadHandler) *
 
 /* GroupLimitRead swagger:route GET /group/limits api groupLimitRead
 
-Get the resource limits for the given quota-group.
+Get the resource limits for the given quota-groups.
+
+Given an array of quota-groups, return all of their limits in a map.
 
 */
 type GroupLimitRead struct {

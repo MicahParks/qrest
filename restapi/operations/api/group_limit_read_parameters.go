@@ -31,7 +31,7 @@ type GroupLimitReadParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*The name of the quota-groups to get the limits for.
+	/*The name of the quota-groups to get the resource limits for.
 	  Required: true
 	  In: body
 	*/

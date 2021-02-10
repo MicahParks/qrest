@@ -31,7 +31,9 @@ func NewGroupInsert(ctx *middleware.Context, handler GroupInsertHandler) *GroupI
 
 /* GroupInsert swagger:route POST /group api groupInsert
 
-Insert a quota-group.
+Insert quota-groups.
+
+Insert all given quota-groups to the backend.
 
 */
 type GroupInsert struct {
