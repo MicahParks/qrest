@@ -55,13 +55,23 @@ responses. It is fed into the `goswagger` code generator to generate the server 
 supported format.
 
 ## Design
-bulk transactions
-Caddy Docker Live hosted Rate limiter middleware.
+
+This service used the `github.com/mvo5/qrest-skeleton/backend` Go package as an external dependency. I did not change or
+add to any of the mock backend code.
+
+This service was designed with bulk transactions in mind. All endpoints consume JSON that allows for the querying or
+manipulation of multiple quota-groups and/or members at once.
+
+This service was designed as a containerized microservice using Docker.
+
+This service is hosted live at snapapi.micahparks.com.
+
+This service has a rate limiter middleware that allows for up to 1 request per second.
 
 ## Improvements
 
-- [ ] Add debug logging to endpoints.
-- [ ] Use non-developer zap logger.
-- [ ] Add more logic to rate limiter middleware.
-- [ ] Add a logging middleware.
 - [ ] Implement the usage portion in the backend.
+- [ ] Add more logic to rate limiter middleware.
+- [ ] Add debug logging to endpoints.
+- [ ] Add a logging middleware.
+- [ ] Use non-developer zap logger.

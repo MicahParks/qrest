@@ -15,6 +15,7 @@ services:
       context: "."
       dockerfile: "Dockerfile"
     container_name: "snapapi"
+    image: "micahparks/snapapi"
 volumes:
   caddy:
   caddyConfig:
