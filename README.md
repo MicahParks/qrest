@@ -1,5 +1,8 @@
 # snap API challenge
 
+This is a technical challenge for Canonical's snap team. The API can be looked at in a glace by
+visiting [these docs](https://snapapi.micahparks.com/api/v0/docs).
+
 ## Project Organization
 
 #### `cmd` Directory
@@ -16,7 +19,7 @@ considered active. It sets things up like a logger and the backend assets.
 
 The `endpoints` directory is where the business logic of the service resides. These functions are triggered when an
 incoming request reaches out to an endpoint. The function is responsible for taking the data in the incoming request,
-talking to the backend code, and returning a normal response or error.
+talking to the backend code, and returning a normal or error response.
 
 #### `models` Directory
 
@@ -59,6 +62,10 @@ supported format.
 This service used the `github.com/mvo5/qrest-skeleton/backend` Go package as an external dependency. I did not change or
 add to any of the mock backend code.
 
+This service's generated API documentation is hosted live
+at [https://snapapi.micahparks.com/api/v0/docs](https://snapapi.micahparks.com/api/v0/docs). It can be used to
+understand the service better, generate requests, etc.
+
 This service defaults resource limits to zero.
 
 This service will not allow a quota-group to be added as a member to another quota-group if it is not already present in
@@ -82,7 +89,7 @@ TODO
 
 OR
 
-`docker-compose up`
+`docker-compose up` (This will create a self-signed certificate and use ports `80` and `443`.)
 
 ## Improvements
 

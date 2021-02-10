@@ -36,13 +36,7 @@ func HandleMembersAdd(logger *zap.SugaredLogger, quotaManager *backend.QuotaMana
 				)
 
 				// Report the error to the client.
-				resp := &api.GroupMembersAddDefault{Payload: &models.Error{
-					Code:    int64(code),
-					Message: message,
-				}}
-				resp.SetStatusCode(code)
-
-				return resp
+				return errorResponse(code, message, &api.GroupMembersAddDefault{})
 			}
 
 			// Iterate through the member quota-groups.
@@ -92,13 +86,7 @@ func HandleMembersDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaM
 				)
 
 				// Report the error to the client.
-				resp := &api.GroupMembersDeleteDefault{Payload: &models.Error{
-					Code:    int64(code),
-					Message: message,
-				}}
-				resp.SetStatusCode(code)
-
-				return resp
+				return errorResponse(code, message, &api.GroupMembersDeleteDefault{})
 			}
 
 			// Iterate through the member quota-groups.
@@ -151,13 +139,7 @@ func HandleMembersRead(logger *zap.SugaredLogger, quotaManager *backend.QuotaMan
 				)
 
 				// Report the error to the client.
-				resp := &api.GroupMembersReadDefault{Payload: &models.Error{
-					Code:    int64(code),
-					Message: message,
-				}}
-				resp.SetStatusCode(code)
-
-				return resp
+				return errorResponse(code, message, &api.GroupMembersReadDefault{})
 			}
 
 			// Add the group's group members to the map.
@@ -190,24 +172,10 @@ func memberFailure(addMember bool, err error, groupName string, logger *zap.Suga
 		"error", err.Error(),
 	)
 
-	// Create the response back to the client.
+	// Decide which Go type to return and create the response back to the client..
 	code := 500
-	errPayload := &models.Error{
-		Code:    int64(code),
-		Message: message,
-	}
-
-	// Decide which Go type to return.
 	if !addMember {
-		resp := &api.GroupMembersDeleteDefault{
-			Payload: errPayload,
-		}
-		resp.SetStatusCode(code)
-		return resp
+		return errorResponse(code, message, &api.GroupMembersDeleteDefault{})
 	}
-	resp := &api.GroupMembersAddDefault{
-		Payload: errPayload,
-	}
-	resp.SetStatusCode(code)
-	return resp
+	return errorResponse(code, message, &api.GroupMembersAddDefault{})
 }

@@ -46,13 +46,7 @@ func HandleUsage(logger *zap.SugaredLogger, quotaManager *backend.QuotaManager) 
 				)
 
 				// Report the error to the client.
-				resp := &api.GroupUsageDefault{Payload: &models.Error{
-					Code:    int64(code),
-					Message: message,
-				}}
-				resp.SetStatusCode(code)
-
-				return resp
+				return errorResponse(code, message, &api.GroupUsageDefault{})
 			}
 
 			// Get the memory utilization.

@@ -9,7 +9,6 @@ import (
 
 	"github.com/mvo5/qrest-skeleton/backend"
 
-	"github.com/MicahParks/qrest/models"
 	"github.com/MicahParks/qrest/restapi/operations/api"
 )
 
@@ -37,14 +36,7 @@ func HandleGroupDelete(logger *zap.SugaredLogger, quotaManager *backend.QuotaMan
 				)
 
 				// Report the error to the client.
-				code := 500
-				resp := &api.GroupDeleteDefault{Payload: &models.Error{
-					Code:    int64(code),
-					Message: message,
-				}}
-				resp.SetStatusCode(code)
-
-				return resp
+				return errorResponse(500, message, &api.GroupDeleteDefault{})
 			}
 		}
 
@@ -70,15 +62,8 @@ func HandleGroupInsert(logger *zap.SugaredLogger, quotaManager *backend.QuotaMan
 				if inputGroup.Name == "" {
 
 					// Report the group as unprocessable.
-					code := 422
 					message := fmt.Sprintf("The group \"%s\" was not processable. Empty group names are not allowed.", inputGroup.Name)
-					resp := &api.GroupInsertDefault{Payload: &models.Error{
-						Code:    int64(code),
-						Message: message,
-					}}
-					resp.SetStatusCode(code)
-
-					return resp
+					return errorResponse(422, message, &api.GroupInsertDefault{})
 				}
 
 				// If no limit was provided, use 0.
@@ -105,27 +90,13 @@ func HandleGroupInsert(logger *zap.SugaredLogger, quotaManager *backend.QuotaMan
 							)
 
 							// Report the error to the client.
-							code := 500
-							resp := &api.GroupInsertDefault{Payload: &models.Error{
-								Code:    int64(code),
-								Message: message,
-							}}
-							resp.SetStatusCode(code)
-
-							return resp
+							return errorResponse(500, message, &api.GroupInsertDefault{})
 						}
 					} else {
 
 						// Report the error to the client.
 						message := fmt.Sprintf("Could not add \"%s\" member quota-group because it is not tracked by the quota manager.", groupName)
-						code := 400
-						resp := &api.GroupInsertDefault{Payload: &models.Error{
-							Code:    int64(code),
-							Message: message,
-						}}
-						resp.SetStatusCode(code)
-
-						return resp
+						return errorResponse(400, message, &api.GroupInsertDefault{})
 					}
 				}
 
